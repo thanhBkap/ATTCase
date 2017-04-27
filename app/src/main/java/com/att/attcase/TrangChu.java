@@ -1,9 +1,7 @@
 package com.att.attcase;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,25 +10,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import static com.att.attcase.R.id.btn_move_page_2;
 
 public class TrangChu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    Button btn_chuyen_trang_2,btn_chuyen_trang_3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trang_chu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -40,6 +33,30 @@ public class TrangChu extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        addControls();
+        adddEvents();
+    }
+
+    private void adddEvents() {
+        btn_chuyen_trang_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mChuyenPage2 =new Intent(getApplicationContext(),ChonKhungLayout.class);
+                startActivity(mChuyenPage2);
+            }
+        });
+        btn_chuyen_trang_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mChuyenPage3 =new Intent(getApplicationContext(),XayDungCase.class);
+                startActivity(mChuyenPage3);
+            }
+        });
+    }
+
+    private void addControls() {
+        btn_chuyen_trang_2= (Button) findViewById(btn_move_page_2);
+        btn_chuyen_trang_3= (Button) findViewById(R.id.btn_move_page_3);
     }
 
     @Override
