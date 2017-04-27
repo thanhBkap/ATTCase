@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import static com.att.attcase.R.id.btn_move_page_2;
 
 public class TrangChu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -55,8 +54,8 @@ public class TrangChu extends AppCompatActivity
     }
 
     private void addControls() {
-        btn_chuyen_trang_2= (Button) findViewById(btn_move_page_2);
-        btn_chuyen_trang_3= (Button) findViewById(R.id.btn_move_page_3);
+        btn_chuyen_trang_2= (Button) findViewById(R.id.btn_chuyen_trang_2);
+        btn_chuyen_trang_3= (Button) findViewById(R.id.btn_chuyen_trang_3);
     }
 
     @Override
