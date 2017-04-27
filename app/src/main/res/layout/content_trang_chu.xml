@@ -8,18 +8,54 @@
     tools:context="com.att.attcase.TrangChu"
     tools:showIn="@layout/app_bar_trang_chu">
 
-    <Button
+    <ImageView
+        android:id="@+id/imgCase"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:src="@drawable/case3" />
+
+    <RelativeLayout
+        android:id="@+id/layout_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignBottom="@+id/imgCase"
         android:layout_alignParentBottom="true"
-        android:id="@+id/btn_chuyen_trang_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Trang 2" />
-    <Button
-        android:layout_toRightOf="@id/btn_chuyen_trang_2"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/btn_chuyen_trang_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Trang 3" />
+        android:background="@color/grey">
+
+        <Button
+            android:id="@+id/btn_chuyen_trang_2"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bo_vien"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="Make Your Case!"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/img_icon_plane"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_below="@+id/btn_chuyen_trang_2"
+            android:layout_toLeftOf="@+id/txt_free_ship"
+            android:src="@drawable/icon_plane" />
+
+        <TextView
+            android:textSize="12dp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/txt_free_ship"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_chuyen_trang_2"
+            android:layout_centerInParent="true"
+            android:text="Free Shipping Worldwide" />
+    </RelativeLayout>
+
 
 </RelativeLayout>
