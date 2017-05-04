@@ -1,9 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/AppTheme.NoActionBar"
     tools:context="com.att.attcase.XayDungCase">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/rl_xaydungcase">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:id="@+id/img_case"
+            android:src="@drawable/ip_iphone6"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ll_xaydungcase"
+            android:orientation="horizontal"></LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ip_iphone6test"
+            android:scaleType="fitXY"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_back"
+        android:id="@+id/btn_back"/>
+
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_save"
+        android:layout_alignParentRight="true"
+        android:id="@+id/btn_save"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_above="@+id/toolbar_design"
+        android:id="@+id/rl_thietke_hieuung"
+        android:visibility="gone">
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_effect"
+            android:id="@+id/btn_hieuung1"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_above="@+id/toolbar_design"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/ll_congcu">
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_refresh"
+            android:layout_marginStart="20dp"
+            android:id="@+id/btn_refresh"/>
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_random"
+            android:layout_marginStart="20dp"
+            android:id="@+id/btn_random"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_above="@+id/toolbar_design"
+        android:id="@+id/rl_danhsachanh"
+        android:layout_marginBottom="10dp"
+        android:visibility="visible">
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_image"
+            android:id="@+id/btn_mokhoanh" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/btn_mokhoanh"
+            android:layout_marginStart="10dp"
+            android:id="@+id/rc_anhduocchon"
+            android:visibility="visible"
+            android:scrollbars="horizontal">
+
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/blue"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/toolbar_design">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingStart="20dp">
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_image"
+                android:id="@+id/btn_anh" />
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_tool"
+                android:layout_marginStart="20dp"
+                android:id="@+id/btn_congcu"
+                />
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_theme"
+                android:layout_marginStart="20dp"
+                android:id="@+id/btn_theme"/>
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_effect"
+                android:layout_marginStart="20dp"
+                android:id="@+id/btn_hieuung"/>
+        </LinearLayout>
+    </Toolbar>
+
+</RelativeLayout>
+
