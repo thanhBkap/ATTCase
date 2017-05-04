@@ -7,4 +7,6 @@
     <color name="darkGrey">#222222</color>
     <color name="white">#ffffff</color>
     <color name="blue">#4FA4D2</color>
+    <color name="mypink">#8aef77c7</color>
+    <color name="none">#00ffffff</color>
 </resources>

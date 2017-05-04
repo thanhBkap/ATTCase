@@ -5,5 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.att.attcase.ChonKhungLayout">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="trang3"
+        android:id="@+id/btn_chuyen_trang_3" />
 
 </android.support.constraint.ConstraintLayout>
