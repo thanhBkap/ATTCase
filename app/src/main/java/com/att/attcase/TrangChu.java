@@ -2,6 +2,7 @@ package com.att.attcase;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +18,15 @@ import android.widget.Toast;
 public class TrangChu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Button btn_chuyen_trang_2;
+    boolean exitStatus;
+    private Handler handlerExit = new Handler();
+    private Runnable runnableExitStatus = new Runnable() {
+        @Override
+        public void run() {
+            exitStatus = false;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +41,7 @@ public class TrangChu extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.setHomeAsUpIndicator(R.drawable.ic_menu_camera);
-      //  toggle.setDrawerIndicatorEnabled(true);     // this will disable your default haburger icon
+        //  toggle.setDrawerIndicatorEnabled(true);     // this will disable your default haburger icon
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -44,14 +54,14 @@ public class TrangChu extends AppCompatActivity
         btn_chuyen_trang_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mChuyenPage2 =new Intent(getApplicationContext(),ChonKhungLayout.class);
+                Intent mChuyenPage2 = new Intent(getApplicationContext(), ChonKhungLayout.class);
                 startActivity(mChuyenPage2);
             }
         });
     }
 
     private void addControls() {
-        btn_chuyen_trang_2= (Button) findViewById(R.id.btn_chuyen_trang_2);
+        btn_chuyen_trang_2 = (Button) findViewById(R.id.btn_chuyen_trang_2);
     }
 
     @Override
@@ -59,9 +69,16 @@ public class TrangChu extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
+
+        if (exitStatus) {
+            finish();
+        } else {
+            this.exitStatus = true;
+            Toast.makeText(getApplicationContext(), "Click quay lại thêm lần nữa để thoát", Toast.LENGTH_SHORT).show();
+            handlerExit.postDelayed(runnableExitStatus, 2000);
+        }
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -71,28 +88,28 @@ public class TrangChu extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            Toast.makeText(getApplicationContext(),"Tính năng sẽ được update trong thời gian sớm nhất",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_gallery) {
-            Toast.makeText(getApplicationContext(),"Tính năng sẽ được update trong thời gian sớm nhất",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_cart) {
-            Toast.makeText(getApplicationContext(),"Tính năng sẽ được update trong thời gian sớm nhất",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_invite) {
-            Toast.makeText(getApplicationContext(),"Tính năng sẽ được update trong thời gian sớm nhất",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
         } /*else if (id == R.id.nav_log_out) {
             Toast.makeText(getApplicationContext(),"Tính năng sẽ được update trong thời gian sớm nhất",Toast.LENGTH_LONG).show();
 
         }*/ else if (id == R.id.nav_make_case) {
-            Toast.makeText(getApplicationContext(),"Tính năng sẽ được update trong thời gian sớm nhất",Toast.LENGTH_LONG).show();
-        }else if (id == R.id.nav_profile) {
-            Toast.makeText(getApplicationContext(),"Tính năng sẽ được update trong thời gian sớm nhất",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
+        } else if (id == R.id.nav_profile) {
+            Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
 
-        }else if (id == R.id.nav_promotion) {
-            Toast.makeText(getApplicationContext(),"Tính năng sẽ được update trong thời gian sớm nhất",Toast.LENGTH_LONG).show();
+        } else if (id == R.id.nav_promotion) {
+            Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
 
-        }else if (id == R.id.nav_store) {
-            Toast.makeText(getApplicationContext(),"Tính năng sẽ được update trong thời gian sớm nhất",Toast.LENGTH_LONG).show();
-        }else if (id == R.id.nav_view) {
-            Toast.makeText(getApplicationContext(),"Tính năng sẽ được update trong thời gian sớm nhất",Toast.LENGTH_LONG).show();
+        } else if (id == R.id.nav_store) {
+            Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
+        } else if (id == R.id.nav_view) {
+            Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
