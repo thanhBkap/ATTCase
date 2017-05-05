@@ -44,9 +44,9 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     Boolean             click;
     static ImageView[][]       dsAnhXayDungCase;
 
-    static ArrayList<AnhDuocChon> arrayList;
+    public  static ArrayList<AnhDuocChon> arrayList;
     private static      RecyclerView        rcAnhDuocChon;
-    public static       View.OnClickListener recyclerViewClick;
+    public  static       View.OnClickListener recyclerViewClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,9 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                 break;
 
             case R.id.btn_save  :
+                Intent intentDatHang = new Intent(XayDungCase.this,DatHang.class);
+                intentDatHang.putExtra("danhsachanh",arrayList);
+                startActivity(intentDatHang);
 
                 break;
 
@@ -167,7 +170,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         rcAnhDuocChon.setLayoutManager(layoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,layoutManager.getOrientation());
         rcAnhDuocChon.addItemDecoration(dividerItemDecoration);
-        arrayList = new ArrayList<>();
+        arrayList = new ArrayList<AnhDuocChon>();
         KhoAnhAdapter khoAnhAdapter = new KhoAnhAdapter(arrayList,getApplicationContext());
         rcAnhDuocChon.setAdapter(khoAnhAdapter);
 
@@ -175,7 +178,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         img_Case    =   (ImageView)         findViewById(R.id.img_case);
 
         //Thiet ke case
-        kieuKhungHinh = new KieuKhungHinh(8,4);
+        kieuKhungHinh = new KieuKhungHinh(1,1);
         rlXayDungCase = (RelativeLayout) findViewById(R.id.rl_xaydungcase);
         llXayDungCase = (LinearLayout)   findViewById(R.id.ll_xaydungcase);
         //get pixel screen
@@ -200,7 +203,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                 dsAnhXayDungCase[i][j].setId(i*kieuKhungHinh.getSoHang() + j);
                 dsAnhXayDungCase[i][j].setImageResource(R.drawable.none);
                 dsAnhXayDungCase[i][j].setTag(R.drawable.none);
-                dsAnhXayDungCase[i][j].setScaleType(ImageView.ScaleType.FIT_XY);
+                dsAnhXayDungCase[i][j].setScaleType(ImageView.ScaleType.CENTER_CROP);
                 dsAnhXayDungCase[i][j].setLayoutParams(new ViewGroup.LayoutParams(chieuRongCase/kieuKhungHinh.getSoCot(),chieuDaiCase/kieuKhungHinh.getSoHang()));
                 row.addView(dsAnhXayDungCase[i][j]);
                 final int finalI = i;
