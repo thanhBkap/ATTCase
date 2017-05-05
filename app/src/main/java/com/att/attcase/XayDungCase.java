@@ -52,8 +52,9 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     String mIdMauDienThoai;
     DatabaseHelper mDatabaseHelper;
     Layout mLayout;
-    Bitmap mAnhMatSauDienThoai,mAnhMatSauKhongCheDienThoai;
+    Bitmap mAnhMatSauDienThoai, mAnhMatSauKhongCheDienThoai;
     ImageView img_anh_mat_sau_khong_che;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +76,8 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                 break;
 
             case R.id.btn_save:
-
+                Intent chuyenSangTrangDatHang = new Intent(this,DatHang.class);
+                startActivity(chuyenSangTrangDatHang);
                 break;
 
             case R.id.btn_anh:
@@ -137,10 +139,10 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         mDatabaseHelper = new DatabaseHelper(this);
         mDatabaseHelper.checkDatabase(this);
         mLayout = new Layout();
-        mLayout=mDatabaseHelper.getLayout(mIdLayout);
-        mAnhMatSauDienThoai=mDatabaseHelper.getAnhMatSauDienThoai(mIdMauDienThoai);
-        mAnhMatSauKhongCheDienThoai=mDatabaseHelper.getAnhMatSauKhongCheDienThoai(mIdMauDienThoai);
-        img_anh_mat_sau_khong_che= (ImageView) findViewById(R.id.img_anh_mat_sau_khong_che);
+        mLayout = mDatabaseHelper.getLayout(mIdLayout);
+        mAnhMatSauDienThoai = mDatabaseHelper.getAnhMatSauDienThoai(mIdMauDienThoai);
+        mAnhMatSauKhongCheDienThoai = mDatabaseHelper.getAnhMatSauKhongCheDienThoai(mIdMauDienThoai);
+        img_anh_mat_sau_khong_che = (ImageView) findViewById(R.id.img_anh_mat_sau_khong_che);
         img_anh_mat_sau_khong_che.setImageBitmap(mAnhMatSauKhongCheDienThoai);
         // list Button
         btnCacHieuUng = new Button[1];
