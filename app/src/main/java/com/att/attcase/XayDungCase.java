@@ -41,6 +41,17 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     Uri imgUri;
     Bitmap bitmap;
     KieuKhungHinh kieuKhungHinh;
+<<<<<<< HEAD
+    int                 chieuDai,chieuRong,chieuDaiCase,chieuRongCase;
+    static int          toaDoX,toaDoY;
+    Boolean             click;
+    static ImageView[][]       dsAnhXayDungCase;
+
+    public  static ArrayList<AnhDuocChon> arrayList;
+    private static      RecyclerView        rcAnhDuocChon;
+    public  static       View.OnClickListener recyclerViewClick;
+
+=======
     int chieuDai, chieuRong, chieuDaiCase, chieuRongCase;
     static int toaDoX, toaDoY;
     Boolean click;
@@ -54,6 +65,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     Layout mLayout;
     Bitmap mAnhMatSauDienThoai,mAnhMatSauKhongCheDienThoai;
     ImageView img_anh_mat_sau_khong_che;
+>>>>>>> master
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +86,14 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                 startActivity(intent);
                 break;
 
+<<<<<<< HEAD
+            case R.id.btn_save  :
+                Intent intentDatHang = new Intent(XayDungCase.this,DatHang.class);
+                intentDatHang.putExtra("danhsachanh",arrayList);
+                startActivity(intentDatHang);
+=======
             case R.id.btn_save:
+>>>>>>> master
 
                 break;
 
@@ -183,15 +202,24 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         rcAnhDuocChon.setLayoutManager(layoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
         rcAnhDuocChon.addItemDecoration(dividerItemDecoration);
+<<<<<<< HEAD
+        arrayList = new ArrayList<AnhDuocChon>();
+        KhoAnhAdapter khoAnhAdapter = new KhoAnhAdapter(arrayList,getApplicationContext());
+=======
         arrayList = new ArrayList<>();
         KhoAnhAdapter khoAnhAdapter = new KhoAnhAdapter(arrayList, getApplicationContext());
+>>>>>>> master
         rcAnhDuocChon.setAdapter(khoAnhAdapter);
 
         //Image
         img_Case = (ImageView) findViewById(R.id.img_case);
 
         //Thiet ke case
+<<<<<<< HEAD
+        kieuKhungHinh = new KieuKhungHinh(1,1);
+=======
         kieuKhungHinh = new KieuKhungHinh(8, 4);
+>>>>>>> master
         rlXayDungCase = (RelativeLayout) findViewById(R.id.rl_xaydungcase);
         llXayDungCase = (LinearLayout) findViewById(R.id.ll_xaydungcase);
         //get pixel screen
@@ -216,8 +244,13 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                 dsAnhXayDungCase[i][j].setId(i * kieuKhungHinh.getSoHang() + j);
                 dsAnhXayDungCase[i][j].setImageResource(R.drawable.none);
                 dsAnhXayDungCase[i][j].setTag(R.drawable.none);
+<<<<<<< HEAD
+                dsAnhXayDungCase[i][j].setScaleType(ImageView.ScaleType.CENTER_CROP);
+                dsAnhXayDungCase[i][j].setLayoutParams(new ViewGroup.LayoutParams(chieuRongCase/kieuKhungHinh.getSoCot(),chieuDaiCase/kieuKhungHinh.getSoHang()));
+=======
                 dsAnhXayDungCase[i][j].setScaleType(ImageView.ScaleType.FIT_XY);
                 dsAnhXayDungCase[i][j].setLayoutParams(new ViewGroup.LayoutParams(chieuRongCase / kieuKhungHinh.getSoCot(), chieuDaiCase / kieuKhungHinh.getSoHang()));
+>>>>>>> master
                 row.addView(dsAnhXayDungCase[i][j]);
                 final int finalI = i;
                 final int finalJ = j;
