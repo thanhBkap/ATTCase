@@ -26,6 +26,7 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal"></LinearLayout>
         <ImageView
+            android:id="@+id/img_anh_mat_sau_khong_che"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/ip_iphone6test"
@@ -106,7 +107,7 @@
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
-    <Toolbar
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/blue"
@@ -143,7 +144,7 @@
                 android:layout_marginStart="20dp"
                 android:id="@+id/btn_hieuung"/>
         </LinearLayout>
-    </Toolbar>
+    </android.support.v7.widget.Toolbar>
 
 </RelativeLayout>
 

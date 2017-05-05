@@ -7,13 +7,17 @@ package com.att.attcase.model;
 public class Layout {
     String id;
     byte[] anh;
+    int soHang;
+    int soCot;
 
     public Layout() {
     }
 
-    public Layout(String id, byte[] anh) {
+    public Layout(String id, byte[] anh, int soHang, int soCot) {
         this.id = id;
         this.anh = anh;
+        this.soHang = soHang;
+        this.soCot = soCot;
     }
 
     public String getId() {
@@ -30,5 +34,21 @@ public class Layout {
 
     public void setAnh(byte[] anh) {
         this.anh = anh;
+    }
+
+    public int getSoHang() {
+        return soHang;
+    }
+
+    public void setSoHang(int soHang) {
+        this.soHang = soHang;
+    }
+
+    public int getSoCot() {
+        return soCot;
+    }
+
+    public void setSoCot(int soCot) {
+        this.soCot = soCot;
     }
 }

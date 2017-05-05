@@ -8,6 +8,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.widget.Toast;
 
 import com.att.attcase.model.Layout;
@@ -135,6 +137,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         closeDatabase();
         return layoutList;
 
+    }
+
+    public Bitmap getAnhMatSauDienThoai(String idMauDienThoai) {
+        Bitmap anhMatSauDienThoai;
+        openDatabase();
+        Cursor cursor = mDatabase.rawQuery("SELECT anh_mat_sau FROM maudienthoai WHERE id = " + idMauDienThoai, null);
+        cursor.moveToFirst();
+        byte[] mangAnh = cursor.getBlob(0);
+        anhMatSauDienThoai = BitmapFactory.decodeByteArray(mangAnh, 0, mangAnh.length);
+        cursor.close();
+        closeDatabase();
+        return anhMatSauDienThoai;
+    }
+    public Bitmap getAnhMatSauKhongCheDienThoai(String idMauDienThoai) {
+        Bitmap anhMatSauKhongCheDienThoai;
+        openDatabase();
+        Cursor cursor = mDatabase.rawQuery("SELECT anh_khong_che FROM maudienthoai WHERE id = " + idMauDienThoai, null);
+        cursor.moveToFirst();
+        byte[] mangAnh = cursor.getBlob(0);
+        anhMatSauKhongCheDienThoai = BitmapFactory.decodeByteArray(mangAnh, 0, mangAnh.length);
+        cursor.close();
+        closeDatabase();
+        return anhMatSauKhongCheDienThoai;
+    }
+    public Layout getLayout(String idLayout) {
+        Layout layoutDaChon = new Layout();
+        openDatabase();
+        Cursor cursor=mDatabase.rawQuery("SELECT so_cot,so_dong FROM layout WHERE id = "+ idLayout,null);
+        cursor.moveToFirst();
+        layoutDaChon.setSoCot(cursor.getInt(0));
+        layoutDaChon.setSoHang(cursor.getInt(1));
+        cursor.close();
+        closeDatabase();
+        return  layoutDaChon;
     }
 
     //kiểm tra database có tồn tại không
