@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_thuong_hieu_item"
+    android:layout_width="90dp"
+    android:layout_height="90dp"
+    android:background="@drawable/vien_anh_dien_thoai">
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:id="@+id/img_thuong_hieu"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

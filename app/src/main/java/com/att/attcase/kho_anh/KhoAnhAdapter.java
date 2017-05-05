@@ -1,4 +1,4 @@
-package com.att.attcase.com.att.attcase.kho_anh;
+package com.att.attcase.kho_anh;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

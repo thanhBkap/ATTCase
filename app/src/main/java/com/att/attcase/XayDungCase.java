@@ -19,9 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.att.attcase.com.att.attcase.kho_anh.AnhDuocChon;
-import com.att.attcase.com.att.attcase.kho_anh.KhoAnhAdapter;
-import com.att.attcase.com.att.attcase.xaydungcase.KieuKhungHinh;
+import com.att.attcase.kho_anh.AnhDuocChon;
+import com.att.attcase.kho_anh.KhoAnhAdapter;
+import com.att.attcase.xaydungcase.KieuKhungHinh;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     static ImageView    img_Case;
     Uri                 imgUri;
     Bitmap              bitmap;
-    KieuKhungHinh       kieuKhungHinh;
+    KieuKhungHinh kieuKhungHinh;
     int                 chieuDai,chieuRong,chieuDaiCase,chieuRongCase;
     static int          toaDoX,toaDoY;
     Boolean             click;
@@ -64,9 +64,12 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back  :
+                Intent intent = new Intent(XayDungCase.this,ChonKhungLayout.class);
+                startActivity(intent);
                 break;
 
             case R.id.btn_save  :
+
                 break;
 
             case R.id.btn_anh   :
@@ -172,7 +175,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         img_Case    =   (ImageView)         findViewById(R.id.img_case);
 
         //Thiet ke case
-        kieuKhungHinh = new KieuKhungHinh(4,4);
+        kieuKhungHinh = new KieuKhungHinh(8,4);
         rlXayDungCase = (RelativeLayout) findViewById(R.id.rl_xaydungcase);
         llXayDungCase = (LinearLayout)   findViewById(R.id.ll_xaydungcase);
         //get pixel screen

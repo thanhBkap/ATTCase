@@ -1,4 +1,4 @@
-package com.att.attcase.com.att.attcase.xaydungcase;
+package com.att.attcase.xaydungcase;
 
 /**
  * Created by mac on 5/4/17.
