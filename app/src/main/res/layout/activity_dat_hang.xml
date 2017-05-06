@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.att.attcase.DatHang"
     android:id="@+id/ll_dathang"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
 </LinearLayout>
