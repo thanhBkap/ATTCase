@@ -51,7 +51,7 @@ public class KhoAnhAdapter extends RecyclerView.Adapter<KhoAnhAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View itemView = layoutInflater.inflate(R.layout.anh_duoc_chon,parent,false);
-        itemView.setOnClickListener(XayDungCase.recyclerViewClick);
+        itemView.setOnTouchListener(XayDungCase.recyclerViewTouch);
         return new ViewHolder(itemView);
     }
 
@@ -96,6 +96,7 @@ public class KhoAnhAdapter extends RecyclerView.Adapter<KhoAnhAdapter.ViewHolder
         public ViewHolder(View itemView) {
             super(itemView);
             imgHinh = (ImageView) itemView.findViewById(R.id.img_da_chon);
+            imgHinh.setTag(R.drawable.case3);
         }
     }
 }

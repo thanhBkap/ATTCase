@@ -1,8 +1,10 @@
 package com.att.attcase;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,6 +13,9 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,11 +30,12 @@ import com.att.attcase.kho_anh.KhoAnhAdapter;
 import com.att.attcase.model.Layout;
 import com.att.attcase.xaydungcase.KieuKhungHinh;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class XayDungCase extends AppCompatActivity implements android.view.View.OnClickListener {
+public class XayDungCase extends AppCompatActivity implements android.view.View.OnClickListener,View.OnDragListener {
 
     //Khoi tao
     Button btnBack, btnAnh, btnSave, btnTheme, btnTool, btnEffects,
@@ -43,17 +49,23 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     KieuKhungHinh kieuKhungHinh;
     int chieuDai, chieuRong, chieuDaiCase, chieuRongCase;
     static int toaDoX, toaDoY;
-    Boolean click;
     static ImageView[][] dsAnhXayDungCase;
     static ArrayList<AnhDuocChon> arrayList;
     private static RecyclerView rcAnhDuocChon;
-    public static View.OnClickListener recyclerViewClick;
+    public static View.OnTouchListener recyclerViewTouch;
     String mIdLayout;
     String mIdMauDienThoai;
     DatabaseHelper mDatabaseHelper;
     Layout mLayout;
-    Bitmap mAnhMatSauDienThoai,mAnhMatSauKhongCheDienThoai;
+    Bitmap mAnhMatSauDienThoai;
+    Bitmap mAnhMatSauKhongCheDienThoai;
+    Bitmap mBitMapCase;
+    static Bitmap bmAnhDangDung;
     ImageView img_anh_mat_sau_khong_che,img_anh_mat_sau_che;
+    KhoAnhAdapter khoAnhAdapter;
+    int      slAnh = 0;
+    private long                 mDatHangClick;
+    private static final long    mDatHangXacNhan = 3500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +88,24 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                 break;
 
             case R.id.btn_save:
+                long currentTime = System.currentTimeMillis();
+                if (Math.abs(currentTime - mDatHangClick) > mDatHangXacNhan) {
+                    rlXayDungCase.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mBitMapCase = captureScreen(rlXayDungCase);
+                            arrayList.add(new AnhDuocChon(mBitMapCase));
+                        }
+                    });
+                    Toast.makeText(XayDungCase.this,"mời bạn nhấn thêm lần nữa để xác nhận đơn đặt hàng",Toast.LENGTH_SHORT).show();
+                    mDatHangClick = currentTime;
+                } else {
+                    Intent intentDatHang = new Intent(XayDungCase.this,DatHang.class);
+                    mBitMaptoByteArray(intentDatHang);
+                    intentDatHang.putExtra("so_luong_anh",slAnh);
+                    startActivity(intentDatHang);
+                }
+
                 break;
 
             case R.id.btn_anh:
@@ -174,7 +204,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         btnCacHieuUng[0].setOnClickListener(this);
 
         // Recyclerview click chon anh
-        recyclerViewClick = new recyclerViewClick(this);
+        recyclerViewTouch = new recyclerViewTouch(this);
 
         // Layout
         rlHieuUng = (RelativeLayout) findViewById(R.id.rl_thietke_hieuung);
@@ -213,7 +243,6 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         rlXayDungCase.setPadding(chieuRong / 4, chieuDai / 20, chieuRong / 4, (chieuDai * 6) / 20);
         llXayDungCase.setOrientation(LinearLayout.HORIZONTAL);
         dsAnhXayDungCase = new ImageView[kieuKhungHinh.getSoCot()][kieuKhungHinh.getSoHang()];
-        click = false;
 
         for (int i = 0; i < kieuKhungHinh.getSoCot(); i++) {
             LinearLayout row = new LinearLayout(this);
@@ -223,23 +252,10 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                 dsAnhXayDungCase[i][j].setId(i * kieuKhungHinh.getSoHang() + j);
                 dsAnhXayDungCase[i][j].setImageResource(R.drawable.none);
                 dsAnhXayDungCase[i][j].setTag(R.drawable.none);
+                dsAnhXayDungCase[i][j].setOnDragListener(this);
                 dsAnhXayDungCase[i][j].setScaleType(ImageView.ScaleType.CENTER_CROP);
                 dsAnhXayDungCase[i][j].setLayoutParams(new ViewGroup.LayoutParams(chieuRongCase/kieuKhungHinh.getSoCot(),chieuDaiCase/kieuKhungHinh.getSoHang()));
                 row.addView(dsAnhXayDungCase[i][j]);
-                final int finalI = i;
-                final int finalJ = j;
-                dsAnhXayDungCase[i][j].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dsAnhXayDungCase[finalI][finalJ].setBackgroundColor(getResources().getColor(R.color.mypink));
-                        if (click == true) {
-                            dsAnhXayDungCase[toaDoX][toaDoY].setBackgroundColor(getResources().getColor(R.color.none));
-                        }
-                        toaDoX = finalI;
-                        toaDoY = finalJ;
-                        click = true;
-                    }
-                });
             }
             llXayDungCase.addView(row);
         }
@@ -263,23 +279,67 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            KhoAnhAdapter khoAnhAdapter = new KhoAnhAdapter(arrayList, getApplicationContext());
+            khoAnhAdapter = new KhoAnhAdapter(arrayList, getApplicationContext());
             rcAnhDuocChon.setAdapter(khoAnhAdapter);
         }
     }
 
-    // class chon anh
-    private static class recyclerViewClick implements View.OnClickListener {
+    /**
+     * Called when a drag event is dispatched to a view. This allows listeners
+     * to get a chance to override base View behavior.
+     *
+     * @param v     The View that received the drag event.
+     * @param event The {@link DragEvent} object for the drag event.
+     * @return {@code true} if the drag event was handled successfully, or {@code false}
+     * if the drag event was not handled. Note that {@code false} will trigger the View
+     * to call its {@link #onDragEvent(DragEvent) onDragEvent()} handler.
+     */
+    @Override
+    public boolean onDrag(View v, DragEvent event) {
+        int dragEvent = event.getAction();
+        final View view = (View) event.getLocalState();
+
+        switch (dragEvent) {
+            case DragEvent.ACTION_DRAG_ENTERED:
+                break;
+
+            case DragEvent.ACTION_DRAG_EXITED:
+                break;
+
+            case DragEvent.ACTION_DROP:
+                ImageView imgDroped = (ImageView) v;
+                imgDroped.setImageBitmap(bmAnhDangDung);
+                break;
+        }
+        return true;
+    }
+
+    // Touch image
+    private static class recyclerViewTouch implements View.OnTouchListener{
+
         private final Context context;
 
-        private recyclerViewClick(Context context) {
+        private recyclerViewTouch(Context context) {
             this.context = context;
         }
 
+        /**
+         * Called when a touch event is dispatched to a view. This allows listeners to
+         * get a chance to respond before the target view.
+         *
+         * @param v     The view the touch event has been dispatched to.
+         * @param event The MotionEvent object containing full information about
+         *              the event.
+         * @return True if the listener has consumed the event, false otherwise.
+         */
         @Override
-        public void onClick(View v) {
+        public boolean onTouch(View v, MotionEvent event) {
+            ClipData data = ClipData.newPlainText("","");
+            View.DragShadowBuilder mySBuilder = new View.DragShadowBuilder(v);
+            v.startDrag(data,mySBuilder,v,0);
             int k = rcAnhDuocChon.getChildPosition(v);
-            dsAnhXayDungCase[toaDoX][toaDoY].setImageBitmap(arrayList.get(k).getBmHinhAnh());
+            bmAnhDangDung = arrayList.get(k).getBmHinhAnh();
+            return true;
         }
     }
 
@@ -295,4 +355,56 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
             return -1;
         }
     }
+
+    // capture Screen
+    public static Bitmap captureScreen(View v) {
+        Bitmap screenshot = null;
+        try {
+            if(v!=null) {
+                screenshot = Bitmap.createBitmap(v.getMeasuredWidth(),v.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(screenshot);
+                v.draw(canvas);
+            }
+        }catch (Exception e){
+            Log.d("ScreenShotActivity", "Failed to capture screenshot because:" + e.getMessage());
+        }
+        return screenshot;
+    }
+
+    // bitmap to byte array
+    public void mBitMaptoByteArray(Intent intent){
+        for (AnhDuocChon a : arrayList) {
+            ByteArrayOutputStream blob = new ByteArrayOutputStream();
+            a.getBmHinhAnh().compress(Bitmap.CompressFormat.PNG, 0 , blob);
+            byte[] bitmapdata = blob.toByteArray();
+            intent.putExtra("anh" + slAnh,bitmapdata);
+            slAnh++;
+        }
+    }
+
+//    View.OnDragListener dragitem = new View.OnDragListener() {
+//        @Override
+//        public boolean onDrag(View v, DragEvent event) {
+//
+//            int dragEvent = event.getAction();
+//            final View view = (View) event.getLocalState();
+//
+//            switch (dragEvent) {
+//                case DragEvent.ACTION_DRAG_ENTERED:
+//                    break;
+//
+//                case DragEvent.ACTION_DRAG_EXITED:
+//                    break;
+//
+//                case DragEvent.ACTION_DROP:
+//                    dsAnhXayDungCase[0][0].setImageBitmap(bmAnhDangDung);
+//                    break;
+//            }
+//            return true;
+//        }
+//    };
+
+
+
+
 }
