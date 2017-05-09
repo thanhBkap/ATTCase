@@ -55,6 +55,7 @@ public class ChonKhungLayout extends AppCompatActivity {
         mListMauDienThoai = new ArrayList<>();
         mListLayout = new ArrayList<>();
 
+        mDatabaseHelper.show(ChonKhungLayout.this);
         mRecyclerViewThuongHieu = (RecyclerView) findViewById(R.id.recycler_view_thuong_hieu);
         mRecyclerViewMauDienThoai = (RecyclerView) findViewById(R.id.recycler_view_mau_dien_thoai);
         mGridViewLayout = (GridView) findViewById(R.id.gv_layout);
@@ -90,9 +91,13 @@ public class ChonKhungLayout extends AppCompatActivity {
         // list layout cho điện thoại đầu
         mListThuongHieu.addAll(mDatabaseHelper.getListThuongHieu());
         mListMauDienThoai.clear();
-        mListMauDienThoai.addAll(mDatabaseHelper.getListDienThoai(mListThuongHieu.get(0)));
+        if (mListThuongHieu.size()>0){
+            mListMauDienThoai.addAll(mDatabaseHelper.getListDienThoai(mListThuongHieu.get(0)));
+        }
         mListLayout.clear();
-        mListLayout.addAll(mDatabaseHelper.getListLayout(mListMauDienThoai.get(0)));
+        if (mListMauDienThoai.size()>0){
+            mListLayout.addAll(mDatabaseHelper.getListLayout(mListMauDienThoai.get(0)));
+        }
 
         mThuongHieuAdapter.notifyDataSetChanged();
         mMauDienThoaiAdapter.notifyDataSetChanged();

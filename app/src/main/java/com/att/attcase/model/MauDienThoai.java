@@ -9,20 +9,54 @@ public class MauDienThoai {
     String name;
     String idThuongHieu;
     byte[] anh;
+    byte[] anhMatSau;
+    byte[] anhKhongChe;
     String gia;
+    String linkAnh;
+    String linkAnhMatSau;
+    String linkAnhKhongChe;
     boolean checked;
 
     public MauDienThoai() {
         checked=false;
     }
 
-    public MauDienThoai(String id, String name, String idThuongHieu, byte[] anh, String gia, boolean checked) {
+    public MauDienThoai(String id, String name, String idThuongHieu, byte[] anh, byte[] anhMatSau, byte[] anhKhongChe, String gia, String linkAnh, String linkAnhMatSau, String linkAnhKhongChe, boolean checked) {
         this.id = id;
         this.name = name;
         this.idThuongHieu = idThuongHieu;
         this.anh = anh;
+        this.anhMatSau = anhMatSau;
+        this.anhKhongChe = anhKhongChe;
         this.gia = gia;
+        this.linkAnh = linkAnh;
+        this.linkAnhMatSau = linkAnhMatSau;
+        this.linkAnhKhongChe = linkAnhKhongChe;
         this.checked = checked;
+    }
+
+    public String getLinkAnh() {
+        return linkAnh;
+    }
+
+    public void setLinkAnh(String linkAnh) {
+        this.linkAnh = linkAnh;
+    }
+
+    public String getLinkAnhMatSau() {
+        return linkAnhMatSau;
+    }
+
+    public void setLinkAnhMatSau(String linkAnhMatSau) {
+        this.linkAnhMatSau = linkAnhMatSau;
+    }
+
+    public String getLinkAnhKhongChe() {
+        return linkAnhKhongChe;
+    }
+
+    public void setLinkAnhKhongChe(String linkAnhKhongChe) {
+        this.linkAnhKhongChe = linkAnhKhongChe;
     }
 
     public String getId() {
@@ -71,5 +105,21 @@ public class MauDienThoai {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    public byte[] getAnhMatSau() {
+        return anhMatSau;
+    }
+
+    public void setAnhMatSau(byte[] anhMatSau) {
+        this.anhMatSau = anhMatSau;
+    }
+
+    public byte[] getAnhKhongChe() {
+        return anhKhongChe;
+    }
+
+    public void setAnhKhongChe(byte[] anhKhongChe) {
+        this.anhKhongChe = anhKhongChe;
     }
 }

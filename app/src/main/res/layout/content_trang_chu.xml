@@ -31,7 +31,7 @@
             android:background="@drawable/bo_vien"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
-            android:text="Make Your Case!"
+            android:text="Tạo ốp ngay!"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="15dp"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_chuyen_trang_2"
             android:layout_centerInParent="true"
-            android:text="Free Shipping Worldwide" />
+            android:text="Tự do tạo ốp theo cách của riêng bạn" />
     </RelativeLayout>
 
 

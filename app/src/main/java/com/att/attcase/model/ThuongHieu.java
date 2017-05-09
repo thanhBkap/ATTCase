@@ -8,13 +8,23 @@ public class ThuongHieu {
     String id;
     String name;
     byte[] anh;
+    String linkAnh;
     boolean checked;
 
-    public ThuongHieu(String id, String name, byte[] anh, boolean checked) {
+    public ThuongHieu(String id, String name, byte[] anh, String linkAnh, boolean checked) {
         this.id = id;
         this.name = name;
         this.anh = anh;
+        this.linkAnh = linkAnh;
         this.checked = checked;
+    }
+
+    public String getLinkAnh() {
+        return linkAnh;
+    }
+
+    public void setLinkAnh(String linkAnh) {
+        this.linkAnh = linkAnh;
     }
 
     public ThuongHieu() {

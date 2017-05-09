@@ -73,9 +73,12 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
             case R.id.btn_back:
                 Intent intent = new Intent(XayDungCase.this, ChonKhungLayout.class);
                 startActivity(intent);
+                finish();
                 break;
 
             case R.id.btn_save:
+                Intent chuyenSangTrangDatHang = new Intent(this,DatHang.class);
+                startActivity(chuyenSangTrangDatHang);
                 break;
 
             case R.id.btn_anh:
