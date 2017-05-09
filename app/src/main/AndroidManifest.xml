@@ -26,7 +26,7 @@
         <activity
             android:name=".XayDungCase"
             android:screenOrientation="portrait" />
-        <activity android:name=".DatHang"></activity>
+        <activity android:name=".DatHang" />
     </application>
 
 </manifest>
