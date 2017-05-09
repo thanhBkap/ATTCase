@@ -46,15 +46,15 @@
             android:src="@drawable/icon_plane" />
 
         <TextView
-            android:textSize="12dp"
-            android:layout_marginLeft="5dp"
             android:id="@+id/txt_free_ship"
-            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_chuyen_trang_2"
             android:layout_centerInParent="true"
-            android:text="Tự do tạo ốp theo cách của riêng bạn" />
+            android:layout_marginLeft="5dp"
+            android:text="Tự do tạo ốp theo cách của riêng bạn"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
     </RelativeLayout>
 
 

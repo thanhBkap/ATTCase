@@ -5,6 +5,7 @@ package com.att.attcase;
  */
 
 public class DinhDang {
+    static int sReloadedDatabase = 0;
     public static String chuyenThanhDinhDangGia(String giaChuaDinhDang) {
         String gia = "";
         if (giaChuaDinhDang.length() > 3) {

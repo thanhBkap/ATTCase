@@ -2,12 +2,14 @@ package com.att.attcase;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -18,6 +20,9 @@ public class DatHang extends AppCompatActivity {
     private Toolbar mToolbar;
     private Button btnQuayLai, btnDatHang;
     private EditText txtTen, txtDiaChi, txtSoDienThoai, txtEmail;
+    ImageView[] imgDatHang;
+    int slAnh;
+    Bitmap[] mBitMapDatHang;
     List<Bitmap> listAnh;
     int loi = 0;
 
@@ -61,8 +66,22 @@ public class DatHang extends AppCompatActivity {
 
     }
 
+    private void getIntentDatHang() {
+        try {
+            slAnh = getIntent().getIntExtra("so_luong_anh", 1);
+            mBitMapDatHang = new Bitmap[slAnh];
+            imgDatHang = new ImageView[slAnh];
+            for (int i = 0; i < slAnh; i++) {
+                byte[] byteArray = getIntent().getByteArrayExtra("anh" + i);
+                mBitMapDatHang[i] = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void xuLyDatHang() {
-        if (kiemTraTenHopLe()&&kiemTraDiaChiHopLe()&&kiemTraSoDienThoaiHopLe()&&kiemTraEmailHopLe()){
+        if (kiemTraTenHopLe() && kiemTraDiaChiHopLe() && kiemTraSoDienThoaiHopLe() && kiemTraEmailHopLe()) {
            /* final MyCommand myCommand = new MyCommand(getApplicationContext());
             for (int i = 0; i < listAnh.size(); i++) {
                 try {
@@ -94,41 +113,41 @@ public class DatHang extends AppCompatActivity {
                 }
             }
             myCommand.execute();*/
-            Intent quayVeTrangChu = new Intent(DatHang.this,TrangChu.class);
+            Intent quayVeTrangChu = new Intent(DatHang.this, TrangChu.class);
             quayVeTrangChu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            quayVeTrangChu.putExtra("activity","dathang");
+            quayVeTrangChu.putExtra("activity", "dathang");
             startActivity(quayVeTrangChu);
 
         }
     }
 
     private boolean kiemTraEmailHopLe() {
-        if (!Check.isEmailValid(txtEmail.getText().toString())){
-            Toast.makeText(getApplicationContext(),"Email không hợp lệ",Toast.LENGTH_SHORT).show();
+        if (!Check.isEmailValid(txtEmail.getText().toString())) {
+            Toast.makeText(getApplicationContext(), "Email không hợp lệ", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
 
-    private  boolean kiemTraSoDienThoaiHopLe(){
-        if (txtSoDienThoai.getText().toString().length()<8){
-            Toast.makeText(getApplicationContext(),"Số điện thoại không hợp lệ",Toast.LENGTH_SHORT).show();
+    private boolean kiemTraSoDienThoaiHopLe() {
+        if (txtSoDienThoai.getText().toString().length() < 8) {
+            Toast.makeText(getApplicationContext(), "Số điện thoại không hợp lệ", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
 
-    private boolean kiemTraTenHopLe(){
-        if (txtTen.getText().toString().length()<2){
-            Toast.makeText(getApplicationContext(),"Họ tên không hợp lệ",Toast.LENGTH_SHORT).show();
+    private boolean kiemTraTenHopLe() {
+        if (txtTen.getText().toString().length() < 2) {
+            Toast.makeText(getApplicationContext(), "Họ tên không hợp lệ", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
 
-    private boolean  kiemTraDiaChiHopLe(){
-        if (txtDiaChi.getText().toString().length()<5){
-            Toast.makeText(getApplicationContext(),"Địa chỉ không hợp lệ",Toast.LENGTH_SHORT).show();
+    private boolean kiemTraDiaChiHopLe() {
+        if (txtDiaChi.getText().toString().length() < 5) {
+            Toast.makeText(getApplicationContext(), "Địa chỉ không hợp lệ", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

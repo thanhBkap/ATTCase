@@ -32,7 +32,7 @@ public class KhoAnhAdapter extends RecyclerView.Adapter<KhoAnhAdapter.ViewHolder
      * the View to avoid unnecessary {@link View#findViewById(int)} calls.
      *
      * @param parent   The ViewGroup into which the new View will be added after it is bound to
-     *                 an adapter position.
+     * an adapter position.
      * @param viewType The view type of the new View.
      * @return A new ViewHolder that holds a View of the given view type.
      * @see #getItemViewType(int)
@@ -50,8 +50,10 @@ public class KhoAnhAdapter extends RecyclerView.Adapter<KhoAnhAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemView = layoutInflater.inflate(R.layout.anh_duoc_chon,parent,false);
-        itemView.setOnClickListener(XayDungCase.recyclerViewClick);
+        View itemView = layoutInflater.inflate(R.layout.anh_duoc_chon, parent, false);
+       // itemView.setOnClickListener(XayDungCase.recyclerViewClick);
+                itemView.setOnTouchListener(XayDungCase.recyclerViewTouch);
+
         return new ViewHolder(itemView);
     }
 
@@ -90,12 +92,15 @@ public class KhoAnhAdapter extends RecyclerView.Adapter<KhoAnhAdapter.ViewHolder
         return data.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgHinh;
+
         public ViewHolder(View itemView) {
             super(itemView);
             imgHinh = (ImageView) itemView.findViewById(R.id.img_da_chon);
+            imgHinh.setTag(R.drawable.case3);
+
         }
     }
 }
