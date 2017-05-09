@@ -11,8 +11,9 @@
     <ImageView
         android:id="@+id/imgCase"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:src="@drawable/case3" />
+        android:layout_height="match_parent"
+        android:src="@drawable/case3"
+        android:scaleType="fitXY"/>
 
     <RelativeLayout
         android:id="@+id/layout_button"
@@ -20,7 +21,7 @@
         android:layout_height="60dp"
         android:layout_alignBottom="@+id/imgCase"
         android:layout_alignParentBottom="true"
-        android:background="@color/grey">
+        android:background="@color/none">
 
         <Button
             android:id="@+id/btn_chuyen_trang_2"
@@ -49,7 +50,7 @@
             android:textSize="12dp"
             android:layout_marginLeft="5dp"
             android:id="@+id/txt_free_ship"
-            android:textColor="@color/white"
+            android:textColor="@color/blue400"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_chuyen_trang_2"

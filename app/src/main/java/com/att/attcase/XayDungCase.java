@@ -8,6 +8,8 @@ import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.att.attcase.database.DatabaseHelper;
@@ -38,34 +42,33 @@ import java.util.Random;
 public class XayDungCase extends AppCompatActivity implements android.view.View.OnClickListener,View.OnDragListener {
 
     //Khoi tao
-    Button btnBack, btnAnh, btnSave, btnTheme, btnTool, btnEffects,
-            btnMoKhoAnh, btnRefresh, btnRandom;
-    Button[] btnCacHieuUng;
-    RelativeLayout rlHieuUng, rlDanhSachAnh, rlXayDungCase;
-    LinearLayout llXayDungCase, llCongCu;
-    static ImageView img_Case;
-    Uri imgUri;
-    Bitmap bitmap;
-    KieuKhungHinh kieuKhungHinh;
-    int chieuDai, chieuRong, chieuDaiCase, chieuRongCase;
-    static int toaDoX, toaDoY;
-    static ImageView[][] dsAnhXayDungCase;
-    static ArrayList<AnhDuocChon> arrayList;
-    private static RecyclerView rcAnhDuocChon;
-    public static View.OnTouchListener recyclerViewTouch;
-    String mIdLayout;
-    String mIdMauDienThoai;
-    DatabaseHelper mDatabaseHelper;
-    Layout mLayout;
-    Bitmap mAnhMatSauDienThoai;
-    Bitmap mAnhMatSauKhongCheDienThoai;
-    Bitmap mBitMapCase;
-    static Bitmap bmAnhDangDung;
-    ImageView img_anh_mat_sau_khong_che,img_anh_mat_sau_che;
-    KhoAnhAdapter khoAnhAdapter;
-    int      slAnh = 0;
-    private long                 mDatHangClick;
-    private static final long    mDatHangXacNhan = 3500;
+    Button              btnBack,btnSave, btnMoKhoAnh, btnRefresh, btnRandom;
+    Button[]            btnCacHieuUng;
+    RelativeLayout      rlHieuUng, rlDanhSachAnh, rlXayDungCase;
+    LinearLayout        llXayDungCase, llCongCu;
+    static ImageView    img_Case;
+    Uri                 imgUri;
+    Bitmap              bitmap;
+    KieuKhungHinh       kieuKhungHinh;
+    int                 chieuDai, chieuRong, chieuDaiCase, chieuRongCase;
+    String              mIdLayout;
+    String              mIdMauDienThoai;
+    DatabaseHelper      mDatabaseHelper;
+    Layout              mLayout;
+    Bitmap              mAnhMatSauDienThoai,mBitMapCase,mAnhMatSauKhongCheDienThoai;
+    static int          toaDoX, toaDoY;
+    ImageView           img_anh_mat_sau_khong_che,img_anh_mat_sau_che;
+    KhoAnhAdapter       khoAnhAdapter;
+    int                 slAnh = 0;
+    private long        mDatHangClick;
+    static Bitmap       bmAnhDangDung;
+    private TextView    mTextMessage;
+    BottomNavigationView                navigation;
+    static ImageView[][]                dsAnhXayDungCase;
+    static ArrayList<AnhDuocChon>       arrayList;
+    private static RecyclerView         rcAnhDuocChon;
+    public static View.OnTouchListener  recyclerViewTouch;
+    private static final long           mDatHangXacNhan = 3500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,30 +109,6 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                     startActivity(intentDatHang);
                 }
 
-                break;
-
-            case R.id.btn_anh:
-                rlHieuUng.setVisibility(View.GONE);
-                rlDanhSachAnh.setVisibility(View.VISIBLE);
-                llCongCu.setVisibility(View.GONE);
-                break;
-
-            case R.id.btn_congcu:
-                rlHieuUng.setVisibility(View.GONE);
-                rlDanhSachAnh.setVisibility(View.GONE);
-                llCongCu.setVisibility(View.VISIBLE);
-                break;
-
-            case R.id.btn_theme:
-                rlHieuUng.setVisibility(View.GONE);
-                rlDanhSachAnh.setVisibility(View.GONE);
-                llCongCu.setVisibility(View.GONE);
-                break;
-
-            case R.id.btn_hieuung:
-                rlHieuUng.setVisibility(View.VISIBLE);
-                rlDanhSachAnh.setVisibility(View.GONE);
-                llCongCu.setVisibility(View.GONE);
                 break;
 
             case R.id.btn_hieuung1:
@@ -175,16 +154,15 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         mAnhMatSauKhongCheDienThoai=mDatabaseHelper.getAnhMatSauKhongCheDienThoai(mIdMauDienThoai);
         img_anh_mat_sau_khong_che= (ImageView) findViewById(R.id.img_anh_mat_sau_khong_che);
         img_anh_mat_sau_khong_che.setImageBitmap(mAnhMatSauKhongCheDienThoai);
+        mTextMessage = (TextView) findViewById(R.id.message);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // list Button
         btnCacHieuUng = new Button[1];
         // Button
         btnBack = (Button) findViewById(R.id.btn_back);
-        btnAnh = (Button) findViewById(R.id.btn_anh);
         btnSave = (Button) findViewById(R.id.btn_save);
-        btnTheme = (Button) findViewById(R.id.btn_theme);
-        btnTool = (Button) findViewById(R.id.btn_congcu);
-        btnEffects = (Button) findViewById(R.id.btn_hieuung);
         btnMoKhoAnh = (Button) findViewById(R.id.btn_mokhoanh);
         btnRandom = (Button) findViewById(R.id.btn_random);
         btnRefresh = (Button) findViewById(R.id.btn_refresh);
@@ -192,12 +170,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
 
         // Button click
         btnBack.setOnClickListener(this);
-        btnAnh.setOnClickListener(this);
         btnSave.setOnClickListener(this);
-        btnTheme.setOnClickListener(this);
-        btnTool.setOnClickListener(this);
-        btnBack.setOnClickListener(this);
-        btnEffects.setOnClickListener(this);
         btnMoKhoAnh.setOnClickListener(this);
         btnRefresh.setOnClickListener(this);
         btnRandom.setOnClickListener(this);
@@ -256,18 +229,18 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                 dsAnhXayDungCase[i][j].setScaleType(ImageView.ScaleType.CENTER_CROP);
                 dsAnhXayDungCase[i][j].setLayoutParams(new ViewGroup.LayoutParams(chieuRongCase/kieuKhungHinh.getSoCot(),chieuDaiCase/kieuKhungHinh.getSoHang()));
                 row.addView(dsAnhXayDungCase[i][j]);
+                dsAnhXayDungCase[i][j].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        Intent intentChinhSuaAnh = new Intent(XayDungCase.this,ChinhSuaAnh.class);
+//                        startActivity(intentChinhSuaAnh);
+                    }
+                });
             }
             llXayDungCase.addView(row);
         }
     }
 
-    /**
-     * Dispatch incoming result to the correct fragment.
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -275,6 +248,9 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
             imgUri = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
+                int mHeight = bitmap.getHeight();
+                int mWidth = bitmap.getWidth();
+                bitmap = Bitmap.createScaledBitmap(bitmap,mWidth/3,mHeight/3, true);
                 arrayList.add(new AnhDuocChon(bitmap));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -284,16 +260,6 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         }
     }
 
-    /**
-     * Called when a drag event is dispatched to a view. This allows listeners
-     * to get a chance to override base View behavior.
-     *
-     * @param v     The View that received the drag event.
-     * @param event The {@link DragEvent} object for the drag event.
-     * @return {@code true} if the drag event was handled successfully, or {@code false}
-     * if the drag event was not handled. Note that {@code false} will trigger the View
-     * to call its {@link #onDragEvent(DragEvent) onDragEvent()} handler.
-     */
     @Override
     public boolean onDrag(View v, DragEvent event) {
         int dragEvent = event.getAction();
@@ -375,36 +341,50 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     public void mBitMaptoByteArray(Intent intent){
         for (AnhDuocChon a : arrayList) {
             ByteArrayOutputStream blob = new ByteArrayOutputStream();
-            a.getBmHinhAnh().compress(Bitmap.CompressFormat.PNG, 0 , blob);
+            a.getBmHinhAnh().compress(Bitmap.CompressFormat.PNG, 0, blob);
             byte[] bitmapdata = blob.toByteArray();
-            intent.putExtra("anh" + slAnh,bitmapdata);
+            intent.putExtra("anh" + slAnh, bitmapdata);
             slAnh++;
         }
     }
 
-//    View.OnDragListener dragitem = new View.OnDragListener() {
-//        @Override
-//        public boolean onDrag(View v, DragEvent event) {
-//
-//            int dragEvent = event.getAction();
-//            final View view = (View) event.getLocalState();
-//
-//            switch (dragEvent) {
-//                case DragEvent.ACTION_DRAG_ENTERED:
-//                    break;
-//
-//                case DragEvent.ACTION_DRAG_EXITED:
-//                    break;
-//
-//                case DragEvent.ACTION_DROP:
-//                    dsAnhXayDungCase[0][0].setImageBitmap(bmAnhDangDung);
-//                    break;
-//            }
-//            return true;
-//        }
-//    };
+    // bottom navigatioon
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.btn_anh:
+                    rlHieuUng.setVisibility(View.GONE);
+                    rlDanhSachAnh.setVisibility(View.VISIBLE);
+                    llCongCu.setVisibility(View.GONE);
+                    mTextMessage.setText("Gallery");
+                    return true;
 
+                case R.id.btn_congcu:
+                    rlHieuUng.setVisibility(View.GONE);
+                    rlDanhSachAnh.setVisibility(View.GONE);
+                    llCongCu.setVisibility(View.VISIBLE);
+                    mTextMessage.setText("Tools");
+                    return true;
 
+                case R.id.btn_theme:
+                    rlHieuUng.setVisibility(View.GONE);
+                    rlDanhSachAnh.setVisibility(View.GONE);
+                    llCongCu.setVisibility(View.GONE);
+                    mTextMessage.setText("Icons");
+                    return true;
 
+                case R.id.btn_hieuung:
+                    rlHieuUng.setVisibility(View.VISIBLE);
+                    rlDanhSachAnh.setVisibility(View.GONE);
+                    llCongCu.setVisibility(View.GONE);
+                    mTextMessage.setText("Effects");
+                    return true;
+            }
+            return false;
+        }
+
+    };
 }
