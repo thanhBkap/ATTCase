@@ -56,7 +56,6 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     DatabaseHelper      mDatabaseHelper;
     Layout              mLayout;
     Bitmap              mAnhMatSauDienThoai,mBitMapCase,mAnhMatSauKhongCheDienThoai;
-    static int          toaDoX, toaDoY;
     ImageView           img_anh_mat_sau_khong_che,img_anh_mat_sau_che;
     KhoAnhAdapter       khoAnhAdapter;
     int                 slAnh = 0;
@@ -103,10 +102,10 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                     Toast.makeText(XayDungCase.this,"mời bạn nhấn thêm lần nữa để xác nhận đơn đặt hàng",Toast.LENGTH_SHORT).show();
                     mDatHangClick = currentTime;
                 } else {
-                    Intent intentDatHang = new Intent(XayDungCase.this,DatHang.class);
-                    mBitMaptoByteArray(intentDatHang);
-                    intentDatHang.putExtra("so_luong_anh",slAnh);
-                    startActivity(intentDatHang);
+//                    Intent intentDatHang = new Intent(XayDungCase.this,DatHang.class);
+//                    mBitMaptoByteArray(intentDatHang);
+//                    intentDatHang.putExtra("so_luong_anh",slAnh);
+//                    startActivity(intentDatHang);
                 }
 
                 break;
