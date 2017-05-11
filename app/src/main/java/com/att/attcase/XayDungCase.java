@@ -1,15 +1,24 @@
 package com.att.attcase;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ClipData;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,16 +37,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.att.attcase.adapter.CropAnhAdapter;
 import com.att.attcase.database.DatabaseHelper;
 import com.att.attcase.kho_anh.AnhDuocChon;
 import com.att.attcase.kho_anh.KhoAnhAdapter;
+import com.att.attcase.model.CropingOption;
 import com.att.attcase.model.Layout;
 import com.att.attcase.xaydungcase.KieuKhungHinh;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import static android.widget.Toast.makeText;
 
 public class XayDungCase extends AppCompatActivity implements android.view.View.OnClickListener,View.OnDragListener {
 
@@ -48,19 +64,19 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     LinearLayout        llXayDungCase, llCongCu;
     static ImageView    img_Case;
     Uri                 imgUri;
-    Bitmap              bitmap;
     KieuKhungHinh       kieuKhungHinh;
     int                 chieuDai, chieuRong, chieuDaiCase, chieuRongCase;
     String              mIdLayout;
     String              mIdMauDienThoai;
     DatabaseHelper      mDatabaseHelper;
     Layout              mLayout;
-    Bitmap              mAnhMatSauDienThoai,mBitMapCase,mAnhMatSauKhongCheDienThoai;
+    Bitmap              mAnhMatSauDienThoai,mAnhMatSauKhongCheDienThoai,mBitMapCase;
     ImageView           img_anh_mat_sau_khong_che,img_anh_mat_sau_che;
     KhoAnhAdapter       khoAnhAdapter;
-    int                 slAnh = 0;
+    ArrayList<String>   dsAnhString;
+    static int          onTouchIndex,toadoX,toadoY;
     private long        mDatHangClick;
-    static Bitmap       bmAnhDangDung;
+    static Uri          uriAnhDangDung,getUri,caseUri;
     private TextView    mTextMessage;
     BottomNavigationView                navigation;
     static ImageView[][]                dsAnhXayDungCase;
@@ -68,11 +84,15 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     private static RecyclerView         rcAnhDuocChon;
     public static View.OnTouchListener  recyclerViewTouch;
     private static final long           mDatHangXacNhan = 3500;
+    private File                        outPutFile = null;
+    private final static int            REQUEST_PERMISSION_REQ_CODE = 34;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xay_dung_case);
+        outPutFile = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+        dsAnhString = new ArrayList<String>();
         addControls();
     }
 
@@ -96,21 +116,21 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                         @Override
                         public void run() {
                             mBitMapCase = captureScreen(rlXayDungCase);
-                            arrayList.add(new AnhDuocChon(mBitMapCase));
+                            caseUri = getImageUri(getApplicationContext(),mBitMapCase);
                         }
                     });
-                    Toast.makeText(XayDungCase.this,"mời bạn nhấn thêm lần nữa để xác nhận đơn đặt hàng",Toast.LENGTH_SHORT).show();
+                    makeText(XayDungCase.this,"mời bạn nhấn thêm lần nữa để xác nhận đơn đặt hàng",Toast.LENGTH_SHORT).show();
                     mDatHangClick = currentTime;
                 } else {
-//                    Intent intentDatHang = new Intent(XayDungCase.this,DatHang.class);
-//                    mBitMaptoByteArray(intentDatHang);
-//                    intentDatHang.putExtra("so_luong_anh",slAnh);
-//                    startActivity(intentDatHang);
+                    for (AnhDuocChon a : arrayList){
+                        dsAnhString.add(new String(a.getUriHinhAnh().toString()));
+                    }
+                    dsAnhString.add(new String(caseUri.toString()));
+                    Intent intentDatHang = new Intent(XayDungCase.this,DatHang.class);
+                    intentDatHang.putExtra("DsAnh",dsAnhString);
+                    XayDungCase.this.startActivity(intentDatHang);
                 }
 
-                break;
-
-            case R.id.btn_hieuung1:
                 break;
 
             case R.id.btn_mokhoanh:
@@ -128,11 +148,11 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                     for (int i = 0; i < kieuKhungHinh.getSoCot(); i++) {
                         for (int j = 0; j < kieuKhungHinh.getSoHang(); j++) {
                             int rand = rand(0, arrayList.size() - 1);
-                            dsAnhXayDungCase[i][j].setImageBitmap(arrayList.get(rand).getBmHinhAnh());
+                            dsAnhXayDungCase[i][j].setImageURI(arrayList.get(rand).getUriHinhAnh());
                         }
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Bạn cần nhiều ảnh hơn để thực hiện chức năng này", Toast.LENGTH_SHORT).show();
+                    makeText(getApplicationContext(), "Bạn cần nhiều ảnh hơn để thực hiện chức năng này", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -191,7 +211,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
         rcAnhDuocChon.addItemDecoration(dividerItemDecoration);
 
-        arrayList = new ArrayList<>();
+        arrayList = new ArrayList<AnhDuocChon>();
         KhoAnhAdapter khoAnhAdapter = new KhoAnhAdapter(arrayList, getApplicationContext());
         rcAnhDuocChon.setAdapter(khoAnhAdapter);
 
@@ -226,13 +246,20 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                 dsAnhXayDungCase[i][j].setTag(R.drawable.none);
                 dsAnhXayDungCase[i][j].setOnDragListener(this);
                 dsAnhXayDungCase[i][j].setScaleType(ImageView.ScaleType.CENTER_CROP);
+                dsAnhXayDungCase[i][j].setId(-1);
                 dsAnhXayDungCase[i][j].setLayoutParams(new ViewGroup.LayoutParams(chieuRongCase/kieuKhungHinh.getSoCot(),chieuDaiCase/kieuKhungHinh.getSoHang()));
                 row.addView(dsAnhXayDungCase[i][j]);
+                final int finalJ = j;
+                final int finalI = i;
                 dsAnhXayDungCase[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Intent intentChinhSuaAnh = new Intent(XayDungCase.this,ChinhSuaAnh.class);
-//                        startActivity(intentChinhSuaAnh);
+                        if (dsAnhXayDungCase[finalI][finalJ].getId() != -1) {
+                            getUri = arrayList.get(dsAnhXayDungCase[finalI][finalJ].getId()).getUriHinhAnh();
+                            toadoX = finalI;
+                            toadoY = finalJ;
+                            CropingIMG();
+                        }
                     }
                 });
             }
@@ -245,17 +272,21 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == 100) {
             imgUri = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imgUri);
-                int mHeight = bitmap.getHeight();
-                int mWidth = bitmap.getWidth();
-                bitmap = Bitmap.createScaledBitmap(bitmap,mWidth/3,mHeight/3, true);
-                arrayList.add(new AnhDuocChon(bitmap));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            arrayList.add(new AnhDuocChon(imgUri));
             khoAnhAdapter = new KhoAnhAdapter(arrayList, getApplicationContext());
             rcAnhDuocChon.setAdapter(khoAnhAdapter);
+        } else if (requestCode == 1) {
+            try {
+                if(outPutFile.exists()){
+                    Bitmap photo = decodeFile(outPutFile);
+                    dsAnhXayDungCase[toadoX][toadoY].setImageBitmap(photo);
+                }
+                else {
+                    makeText(getApplicationContext(), "Error while save image", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -273,7 +304,8 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
 
             case DragEvent.ACTION_DROP:
                 ImageView imgDroped = (ImageView) v;
-                imgDroped.setImageBitmap(bmAnhDangDung);
+                imgDroped.setImageURI(uriAnhDangDung);
+                imgDroped.setId(onTouchIndex);
                 break;
         }
         return true;
@@ -288,22 +320,13 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
             this.context = context;
         }
 
-        /**
-         * Called when a touch event is dispatched to a view. This allows listeners to
-         * get a chance to respond before the target view.
-         *
-         * @param v     The view the touch event has been dispatched to.
-         * @param event The MotionEvent object containing full information about
-         *              the event.
-         * @return True if the listener has consumed the event, false otherwise.
-         */
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             ClipData data = ClipData.newPlainText("","");
             View.DragShadowBuilder mySBuilder = new View.DragShadowBuilder(v);
             v.startDrag(data,mySBuilder,v,0);
-            int k = rcAnhDuocChon.getChildPosition(v);
-            bmAnhDangDung = arrayList.get(k).getBmHinhAnh();
+            onTouchIndex = rcAnhDuocChon.getChildPosition(v);
+            uriAnhDangDung = arrayList.get(onTouchIndex).getUriHinhAnh();
             return true;
         }
     }
@@ -336,17 +359,6 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         return screenshot;
     }
 
-    // bitmap to byte array
-    public void mBitMaptoByteArray(Intent intent){
-        for (AnhDuocChon a : arrayList) {
-            ByteArrayOutputStream blob = new ByteArrayOutputStream();
-            a.getBmHinhAnh().compress(Bitmap.CompressFormat.PNG, 0, blob);
-            byte[] bitmapdata = blob.toByteArray();
-            intent.putExtra("anh" + slAnh, bitmapdata);
-            slAnh++;
-        }
-    }
-
     // bottom navigatioon
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -373,6 +385,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                     rlDanhSachAnh.setVisibility(View.GONE);
                     llCongCu.setVisibility(View.GONE);
                     mTextMessage.setText("Icons");
+                    Toast.makeText(getApplicationContext(),"tính năng chưa được update",Toast.LENGTH_SHORT).show();
                     return true;
 
                 case R.id.btn_hieuung:
@@ -380,10 +393,140 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                     rlDanhSachAnh.setVisibility(View.GONE);
                     llCongCu.setVisibility(View.GONE);
                     mTextMessage.setText("Effects");
+                    Toast.makeText(getApplicationContext(),"tính năng chưa được update",Toast.LENGTH_SHORT).show();
                     return true;
             }
             return false;
         }
 
     };
+
+    //crop image
+    private void CropingIMG() {
+
+        final ArrayList<CropingOption> cropOptions = new ArrayList<CropingOption>();
+
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setType("image/*");
+
+        List<ResolveInfo> list = getPackageManager().queryIntentActivities( intent, 0 );
+        int size = list.size();
+        if (size == 0) {
+            makeText(this, "Cann't find image croping app", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            intent.setData(getUri);
+            intent.putExtra("outputX", 512);
+            intent.putExtra("outputY", 512);
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            intent.putExtra("scale", true);
+
+            //Create output file here
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outPutFile));
+
+            if (size == 1) {
+                Intent i   = new Intent(intent);
+                ResolveInfo res = (ResolveInfo) list.get(0);
+
+                i.setComponent( new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+
+                startActivityForResult(i, 1);
+            } else {
+                for (ResolveInfo res : list) {
+                    final CropingOption co = new CropingOption();
+
+                    co.title  = getPackageManager().getApplicationLabel(res.activityInfo.applicationInfo);
+                    co.icon  = getPackageManager().getApplicationIcon(res.activityInfo.applicationInfo);
+                    co.appIntent= new Intent(intent);
+                    co.appIntent.setComponent( new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+                    cropOptions.add(co);
+                }
+
+                CropAnhAdapter adapter = new CropAnhAdapter(getApplicationContext(), cropOptions);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Choose Croping App");
+                builder.setCancelable(false);
+                builder.setAdapter( adapter, new DialogInterface.OnClickListener() {
+                    public void onClick( DialogInterface dialog, int item ) {
+                        startActivityForResult( cropOptions.get(item).appIntent, 1);
+                    }
+                });
+
+                builder.setOnCancelListener( new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel( DialogInterface dialog ) {
+
+                        if (getUri != null ) {
+                            getContentResolver().delete(getUri, null, null );
+                            getUri = null;
+                        }
+                    }
+                } );
+
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        }
+    }
+
+
+    private Bitmap decodeFile(File f) {
+        try {
+            // decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(new FileInputStream(f), null, o);
+
+            // Find the correct scale value. It should be the power of 2.
+            final int REQUIRED_SIZE = 512;
+            int width_tmp = o.outWidth, height_tmp = o.outHeight;
+            int scale = 1;
+            while (true) {
+                if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
+                    break;
+                width_tmp /= 2;
+                height_tmp /= 2;
+                scale *= 2;
+            }
+
+            // decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+        } catch (FileNotFoundException e) {
+        }
+        return null;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ContextCompat.checkSelfPermission(XayDungCase.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_REQ_CODE);
+            return;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(final int requestCode, final @NonNull String[] permissions, final @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSION_REQ_CODE: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Permission granted.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Permission denied.", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+        }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
 }
