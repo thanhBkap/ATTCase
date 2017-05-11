@@ -1,23 +1,25 @@
 package com.att.attcase.kho_anh;
 
-import android.graphics.Bitmap;
+import android.net.Uri;
+
+import java.io.Serializable;
 
 /**
  * Created by mac on 4/28/17.
  */
 
-public class AnhDuocChon {
-    private Bitmap bmHinhAnh;
+public class AnhDuocChon implements Serializable{
+    private Uri uriHinhAnh;
 
-    public AnhDuocChon(Bitmap bmHinhAnh) {
-        this.bmHinhAnh = bmHinhAnh;
+    public Uri getUriHinhAnh() {
+        return uriHinhAnh;
     }
 
-    public Bitmap getBmHinhAnh() {
-        return bmHinhAnh;
+    public void setUriHinhAnh(Uri uriHinhAnh) {
+        this.uriHinhAnh = uriHinhAnh;
     }
 
-    public void setBmHinhAnh(Bitmap bmHinhAnh) {
-        this.bmHinhAnh = bmHinhAnh;
+    public AnhDuocChon(Uri uriHinhAnh) {
+        this.uriHinhAnh = uriHinhAnh;
     }
 }
