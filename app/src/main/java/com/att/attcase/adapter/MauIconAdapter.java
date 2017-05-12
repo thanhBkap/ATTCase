@@ -1,4 +1,4 @@
-package com.att.attcase.kho_anh;
+package com.att.attcase.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,33 +10,30 @@ import android.widget.ImageView;
 import com.att.attcase.R;
 import com.att.attcase.XayDungCase;
 
-import java.util.ArrayList;
-
 /**
- * Created by mac on 4/28/17.
+ * Created by mac on 5/12/17.
  */
 
-public class KhoAnhAdapter extends RecyclerView.Adapter<KhoAnhAdapter.ViewHolder> {
-
-    ArrayList<AnhDuocChon> data;
+public class MauIconAdapter extends RecyclerView.Adapter<MauIconAdapter.ViewHolder> {
     Context context;
+    int[]   danhsachIcon;
 
-    public KhoAnhAdapter(ArrayList<AnhDuocChon> data, Context context) {
-        this.data = data;
+    public MauIconAdapter(Context context, int[] danhsachIcon) {
         this.context = context;
+        this.danhsachIcon = danhsachIcon;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemView = layoutInflater.inflate(R.layout.anh_duoc_chon,parent,false);
-        itemView.setOnTouchListener(XayDungCase.recyclerImageTouch);
+        View itemView = layoutInflater.inflate(R.layout.anh_duoc_chon, parent, false);
+        itemView.setOnClickListener(XayDungCase.recyclerThemeClick);
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.imgHinh.setImageURI(data.get(position).getUriHinhAnh());
+        holder.imgIcon.setImageResource(danhsachIcon[position]);
     }
 
     /**
@@ -46,16 +43,16 @@ public class KhoAnhAdapter extends RecyclerView.Adapter<KhoAnhAdapter.ViewHolder
      */
     @Override
     public int getItemCount() {
-        return data.size();
+        return danhsachIcon.length;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imgHinh;
+        ImageView imgIcon;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            imgHinh = (ImageView) itemView.findViewById(R.id.img_da_chon);
-            imgHinh.setTag(R.drawable.case3);
+            imgIcon = (ImageView) itemView.findViewById(R.id.img_da_chon);
         }
     }
 }

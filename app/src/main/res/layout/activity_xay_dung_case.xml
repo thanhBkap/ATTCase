@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/AppTheme.NoActionBar"
+    android:id="@+id/main_rlxaydungcase"
     tools:context="com.att.attcase.XayDungCase">
 
     <RelativeLayout
@@ -19,20 +20,27 @@
             android:id="@+id/img_case"
             android:src="@drawable/ip_iphone6"/>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rl_xaydungcase_icon"></RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/ll_xaydungcase"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"></LinearLayout>
-        <ImageView
-            android:id="@+id/img_anh_mat_sau_khong_che"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ip_iphone6test"
-            android:scaleType="fitXY"/>
 
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/img_anh_mat_sau_khong_che"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ip_iphone6test"
+        android:scaleType="fitXY"/>
+
 
     <Button
         android:layout_width="70dp"
@@ -56,6 +64,7 @@
         android:layout_height="60dp"
         android:layout_above="@+id/navigation"
         android:id="@+id/rl_thietke_hieuung"
+        android:layout_marginBottom="10dp"
         android:visibility="gone">
         <Button
             android:layout_width="50dp"
@@ -63,6 +72,23 @@
             android:layout_marginStart="20dp"
             android:background="@drawable/ic_effects"
             android:id="@+id/btn_hieuung1"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_above="@+id/navigation"
+        android:id="@+id/rl_theme"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:id="@+id/rc_icon"
+            android:visibility="visible"
+            android:scrollbars="horizontal"></android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
     <LinearLayout
