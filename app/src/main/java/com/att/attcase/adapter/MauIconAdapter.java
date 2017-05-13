@@ -1,5 +1,10 @@
 package com.att.attcase.adapter;
 
+/**
+ * Created by admin on 5/13/2017.
+ */
+
+
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,13 +15,9 @@ import android.widget.ImageView;
 import com.att.attcase.R;
 import com.att.attcase.XayDungCase;
 
-/**
- * Created by mac on 5/12/17.
- */
-
 public class MauIconAdapter extends RecyclerView.Adapter<MauIconAdapter.ViewHolder> {
     Context context;
-    int[]   danhsachIcon;
+    int[] danhsachIcon;
 
     public MauIconAdapter(Context context, int[] danhsachIcon) {
         this.context = context;

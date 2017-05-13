@@ -130,7 +130,6 @@ public class MauDienThoaiAdapter extends RecyclerView.Adapter<MauDienThoaiAdapte
                     Intent quayLaiTrangChu = new Intent(mContext, TrangChu.class);
                     quayLaiTrangChu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     mContext.startActivity(quayLaiTrangChu);
-
                 }
             });
         }
