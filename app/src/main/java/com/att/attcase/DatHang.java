@@ -7,12 +7,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.kosalgeek.android.photoutil.ImageBase64;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,14 +35,13 @@ public class DatHang extends AppCompatActivity {
     private Button btnQuayLai, btnDatHang;
     private EditText txtTen, txtDiaChi, txtSoDienThoai, txtEmail;
     List<Bitmap> listAnh;
-    int slAnh;
     int soReq=0;
     int loi = 0;
     ProgressDialog mLoadingDialog;
     Intent getIntent;
     ArrayList<String> arrayListAnhDuocChon;
     Uri[]       uris;
-    ImageView imgtest;
+    List<Bitmap>    bmAnhDuocChon; // bitmap anh truyen tu trang 3
     int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +66,22 @@ public class DatHang extends AppCompatActivity {
         });
     }
     private void getIntentDatHang() {
-                getIntent = getIntent();
-               arrayListAnhDuocChon = (ArrayList<String>) getIntent.getExtras().getSerializable("DsAnh");
+        getIntent = getIntent();
+        arrayListAnhDuocChon = (ArrayList<String>) getIntent.getExtras().getSerializable("DsAnh");
                 uris = new Uri[arrayListAnhDuocChon.size()];
                 for (String e : arrayListAnhDuocChon) {
                        uris[i] = Uri.parse(e);
                        i++;
-                   }
+                }
+
+        for (int i = 0; i < uris.length;i++) {
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uris[i]);
+                bmAnhDuocChon.add(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
     private void addControls(){
         //thiết lập action bar
