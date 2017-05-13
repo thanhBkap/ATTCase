@@ -1,9 +1,8 @@
 package com.att.attcase;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -33,11 +31,11 @@ public class DatHang extends AppCompatActivity {
     private Toolbar mToolbar;
     private Button btnQuayLai, btnDatHang;
     private EditText txtTen, txtDiaChi, txtSoDienThoai, txtEmail;
-    ImageView[] imgDatHang;
-    int slAnh;
-    Bitmap[] mBitMapDatHang;
     List<Bitmap> listAnh;
+    int slAnh;
+    int soReq=0;
     int loi = 0;
+    ProgressDialog mLoadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +55,12 @@ public class DatHang extends AppCompatActivity {
         btnDatHang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 xuLyDatHang();
+                xuLyDatHang();
             }
         });
     }
 
-    private void addControls() {
+    private void addControls(){
         //thiết lập action bar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -78,45 +76,36 @@ public class DatHang extends AppCompatActivity {
         llDatHang = (RelativeLayout) findViewById(R.id.ll_dathang);
         //khởi tạo và thêm dữ liệu
         listAnh = new ArrayList<>();
-        listAnh.add(drawableToBitmap(getResources().getDrawable(R.drawable.ip_iphone6test)));
-        listAnh.add(drawableToBitmap(getResources().getDrawable(R.drawable.case3)));
-        listAnh.add(drawableToBitmap(getResources().getDrawable(R.drawable.ip_iphone6)));
+        listAnh.add(drawableToBitmap(getResources().getDrawable(R.drawable.a1)));
+        listAnh.add(drawableToBitmap(getResources().getDrawable(R.drawable.a2)));
+        listAnh.add(drawableToBitmap(getResources().getDrawable(R.drawable.a3)));
     }
 
     public static Bitmap drawableToBitmap(Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable) drawable).getBitmap();
         }
-        int width = drawable.getIntrinsicWidth();
+        /*int width = drawable.getIntrinsicWidth();
         width = width > 0 ? width : 1;
         int height = drawable.getIntrinsicHeight();
         height = height > 0 ? height : 1;
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
+        drawable.draw(canvas);*/
 
-        return bitmap;
+        return ((BitmapDrawable) drawable).getBitmap();
 
 
-    }
-
-    private void getIntentDatHang() {
-        try {
-            slAnh = getIntent().getIntExtra("so_luong_anh", 1);
-            mBitMapDatHang = new Bitmap[slAnh];
-            imgDatHang = new ImageView[slAnh];
-            for (int i = 0; i < slAnh; i++) {
-                byte[] byteArray = getIntent().getByteArrayExtra("anh" + i);
-                mBitMapDatHang[i] = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void xuLyDatHang() {
         if (kiemTraTenHopLe() && kiemTraDiaChiHopLe() && kiemTraSoDienThoaiHopLe() && kiemTraEmailHopLe()) {
+            mLoadingDialog = new ProgressDialog(DatHang.this);
+            mLoadingDialog.setTitle("Đang tải");
+            mLoadingDialog.setMessage("Vui lòng đợi đặt hàng ...");
+            mLoadingDialog.setIndeterminate(true);
+            mLoadingDialog.show();
             final MyCommand myCommand = new MyCommand(getApplicationContext());
             for (int i = 0; i < listAnh.size(); i++) {
                 try {
@@ -125,10 +114,10 @@ public class DatHang extends AppCompatActivity {
                     String url = DinhDang.URL + "/dathang.php";
                     StringRequest stringRequest;
                     if (i == 0) {
-
                         stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+
                             }
                         }, new Response.ErrorListener() {
                             @Override
@@ -149,19 +138,21 @@ public class DatHang extends AppCompatActivity {
                             }
                         };
                         myCommand.add(stringRequest);
+                        soReq++;
 
                     } else {
+
                         final int finalI = i;
                         stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 if (finalI == (listAnh.size() - 1)) {
-                                    Toast.makeText(getApplicationContext(), "Thành công", Toast.LENGTH_SHORT).show();
-                                     Intent quayVeTrangChu = new Intent(DatHang.this, TrangChu.class);
-                                    //quayVeTrangChu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    //quayVeTrangChu.putExtra("activity", "dathang");
-                                     startActivity(quayVeTrangChu);
-                                    //  finish();
+                                    mLoadingDialog.dismiss();
+                                    Intent quayVeTrangChu = new Intent(DatHang.this, TrangChu.class);
+                                    quayVeTrangChu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    quayVeTrangChu.putExtra("activity", "dathang");
+                                    startActivity(quayVeTrangChu);
+                                    finish();
 
                                 }
                             }
@@ -180,7 +171,7 @@ public class DatHang extends AppCompatActivity {
                             }
                         };
                         myCommand.add(stringRequest);
-
+                        soReq++;
                     }
 
                 } catch (Exception e) {
@@ -193,7 +184,7 @@ public class DatHang extends AppCompatActivity {
             //quayVeTrangChu.putExtra("activity", "dathang");
             //startActivity(quayVeTrangChu);
             //  finish();
-
+           // Toast.makeText(getApplicationContext(),"Số req: "+soReq,Toast.LENGTH_SHORT).show();
         }
     }
 
