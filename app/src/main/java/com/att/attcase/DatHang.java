@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -36,7 +38,11 @@ public class DatHang extends AppCompatActivity {
     int soReq=0;
     int loi = 0;
     ProgressDialog mLoadingDialog;
-
+    Intent getIntent;
+    ArrayList<String> arrayListAnhDuocChon;
+    Uri[]       uris;
+    ImageView imgtest;
+    int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +65,15 @@ public class DatHang extends AppCompatActivity {
             }
         });
     }
-
+    private void getIntentDatHang() {
+                getIntent = getIntent();
+               arrayListAnhDuocChon = (ArrayList<String>) getIntent.getExtras().getSerializable("DsAnh");
+                uris = new Uri[arrayListAnhDuocChon.size()];
+                for (String e : arrayListAnhDuocChon) {
+                       uris[i] = Uri.parse(e);
+                       i++;
+                   }
+    }
     private void addControls(){
         //thiết lập action bar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
