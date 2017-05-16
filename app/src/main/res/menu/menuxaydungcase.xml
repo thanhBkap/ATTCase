@@ -12,8 +12,8 @@
         android:icon="@drawable/ic_theme"
         android:id="@+id/btn_theme"></item>
 
-    <item android:title="Effects"
-        android:icon="@drawable/ic_effects"
-        android:id="@+id/btn_hieuung"></item>
+    <!--<item android:title="Effects"-->
+        <!--android:icon="@drawable/ic_effects"-->
+        <!--android:id="@+id/btn_hieuung"></item>-->
 
 </menu>
