@@ -27,9 +27,6 @@ import com.att.attcase.model.MauDienThoai;
 
 import java.util.List;
 
-/**
- * Created by admin on 5/3/2017.
- */
 
 
 public class MauDienThoaiAdapter extends RecyclerView.Adapter<MauDienThoaiAdapter.ViewHolder> {

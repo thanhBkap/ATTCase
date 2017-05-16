@@ -41,7 +41,6 @@ public class DatHang extends AppCompatActivity {
     Intent getIntent;
     ArrayList<String> arrayListAnhDuocChon;
     Uri[]       uris;
-    List<Bitmap>    bmAnhDuocChon; // bitmap anh truyen tu trang 3
     int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +76,7 @@ public class DatHang extends AppCompatActivity {
         for (int i = 0; i < uris.length;i++) {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uris[i]);
-                bmAnhDuocChon.add(bitmap);
+                listAnh.add(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -97,11 +96,6 @@ public class DatHang extends AppCompatActivity {
         txtSoDienThoai = (EditText) findViewById(R.id.txt_so_dien_thoai);
         txtTen = (EditText) findViewById(R.id.txt_ten);
         llDatHang = (RelativeLayout) findViewById(R.id.ll_dathang);
-        //khởi tạo và thêm dữ liệu
-        listAnh = new ArrayList<>();
-        listAnh.add(drawableToBitmap(getResources().getDrawable(R.drawable.a1)));
-        listAnh.add(drawableToBitmap(getResources().getDrawable(R.drawable.a2)));
-        listAnh.add(drawableToBitmap(getResources().getDrawable(R.drawable.a3)));
     }
 
     public static Bitmap drawableToBitmap(Drawable drawable) {
@@ -128,6 +122,7 @@ public class DatHang extends AppCompatActivity {
             mLoadingDialog.setTitle("Đang tải");
             mLoadingDialog.setMessage("Vui lòng đợi đặt hàng ...");
             mLoadingDialog.setIndeterminate(true);
+            mLoadingDialog.setCancelable(false);
             mLoadingDialog.show();
             final MyCommand myCommand = new MyCommand(getApplicationContext());
             for (int i = 0; i < listAnh.size(); i++) {
