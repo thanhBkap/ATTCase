@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ComponentName;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -40,6 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.att.attcase.adapter.CropAnhAdapter;
+import com.att.attcase.adapter.IconAdapter;
 import com.att.attcase.adapter.MauIconAdapter;
 import com.att.attcase.database.DatabaseHelper;
 import com.att.attcase.kho_anh.AnhDuocChon;
@@ -52,7 +51,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -60,7 +58,7 @@ import java.util.Random;
 import static android.widget.Toast.makeText;
 
 
-public class XayDungCase extends AppCompatActivity implements android.view.View.OnClickListener, View.OnDragListener, View.OnTouchListener {
+public class XayDungCase extends AppCompatActivity implements android.view.View.OnClickListener, View.OnDragListener{
 
     //Khoi tao
     Uri imgUri;
@@ -84,6 +82,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     static ImageView[][] dsAnhXayDungCase;
     static ArrayList<AnhDuocChon> arrayList;
     private File outPutFile = null;
+    static IconAdapter icon;
     private static RelativeLayout rlXayDungCase;
     private static ImageView imageNewIcon;
     private static int toaDoXicon, toaDoYicon;
@@ -217,7 +216,15 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         rcIcon = (RecyclerView) findViewById(R.id.rc_icon);
         llCongCu = (LinearLayout) findViewById(R.id.ll_congcu);
         rlXayDungCase = (RelativeLayout) findViewById(R.id.rl_xaydungcase);
+        // layout click
+        rlXayDungCase.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                CreateIcon(iconDuocChon);
+                disableall();
+            }
+        });
         //khoi tao recyclelayout
         rcAnhDuocChon.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -241,8 +248,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
 
         //Image
         img_Case = (ImageView) findViewById(R.id.img_case);
-        createIconButton(iconDuocChon);
-
+        CreateIcon(iconDuocChon);
         //Thiet ke case
         kieuKhungHinh = new KieuKhungHinh(mLayout.getSoHang(), mLayout.getSoCot());
         rlXayDungCase = (RelativeLayout) findViewById(R.id.rl_xaydungcase);
@@ -368,8 +374,8 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         @Override
         public void onClick(View v) {
             iconDuocChon = danhsachIcon[rcIcon.getChildLayoutPosition(v)];
-            imageNewIcon.setVisibility(View.VISIBLE);
-            imageNewIcon.setImageResource(iconDuocChon);
+            icon.setImageInt(iconDuocChon);
+            icon.setVisibility(View.VISIBLE);
         }
     }
 
@@ -433,14 +439,14 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                     mTextMessage.setText("Icons");
                     return true;
 
-                case R.id.btn_hieuung:
+               /* case R.id.btn_hieuung:
                     rlHieuUng.setVisibility(View.VISIBLE);
                     rlDanhSachAnh.setVisibility(View.GONE);
                     llCongCu.setVisibility(View.GONE);
                     rlTheme.setVisibility(View.GONE);
                     mTextMessage.setText("Effects");
                     Toast.makeText(getApplicationContext(), "tính năng chưa được update", Toast.LENGTH_SHORT).show();
-                    return true;
+                    return true;*/
             }
             return false;
         }
@@ -576,7 +582,27 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         return Uri.parse(path);
     }
 
-    @Override
+    private void CreateIcon(int i) {
+        icon = new IconAdapter(XayDungCase.this, i);
+        rlXayDungCase.addView(icon);
+        icon.setVisibility(View.INVISIBLE);
+        icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                disableall();
+            }
+        });
+    }
+
+    public void disableall() {
+        for (int i = 0; i < rlXayDungCase.getChildCount(); i++) {
+            if (rlXayDungCase.getChildAt(i) instanceof IconAdapter) {
+                ((IconAdapter) rlXayDungCase.getChildAt(i)).disableAll();
+            }
+        }
+    }
+
+ /*   @Override
     public boolean onTouch(View view, MotionEvent event) {
         final int X = (int) event.getRawX();
         final int Y = (int) event.getRawY();
@@ -613,5 +639,5 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         imageNewIcon.setImageResource(i);
         imageNewIcon.setVisibility(View.GONE);
         rlXayDungCase.addView(imageNewIcon);
-    }
+    }*/
 }
