@@ -69,6 +69,7 @@ public class TrangChu extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trang_chu);
+        //thiết lập toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -106,14 +107,15 @@ public class TrangChu extends AppCompatActivity
         mListLayoutDienThoai = new ArrayList<>();
         btn_chuyen_trang_2 = (Button) findViewById(R.id.btn_chuyen_trang_2);
         Intent nhanActivity = getIntent();
+        //dialog thông báo xuất hiện nếu vừa đặt hàng xong
         if (nhanActivity.hasExtra("activity")) {
             if (nhanActivity.getStringExtra("activity").equals("dathang")) {
                 thongBaoDatHangThanhCong();
             }
         }
+        //cho lần đầu vào app sẽ kiểm tra dữ liệu
         if (DinhDang.sReloadedDatabase == 0) {
             kiemTraCapNhatDuLieu();
-
         }
     }
 
@@ -135,7 +137,7 @@ public class TrangChu extends AppCompatActivity
 
                 if (capNhatDuLieu.getNoiDung().equals(capNhat)) {
 
-                }else{
+                } else {
                     mLoadingDialog = new ProgressDialog(TrangChu.this);
                     mLoadingDialog.setTitle("Đang tải");
                     mLoadingDialog.setMessage("Vui lòng đợi dữ liệu đang tải về ...");
@@ -169,19 +171,13 @@ public class TrangChu extends AppCompatActivity
                                         @Override
                                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                             mauDienThoai.setAnh(bitmapToByteArray(bitmap));
-
                                             if (mauDienThoai.getAnhKhongChe() != null && mauDienThoai.getAnhMatSau() != null) {
-                                   /* Toast.makeText(TrangChu.this, mauDienThoai.getAnh().length + "=="+mauDienThoai.getIdThuongHieu() + "==" + mauDienThoai.getId() + "==" +
-                                            mauDienThoai.getName() + "==" + mauDienThoai.getGia() + "==" + mauDienThoai.getAnhMatSau().length
-                                            + "==" + mauDienThoai.getAnhKhongChe().length, Toast.LENGTH_SHORT).show();*/
                                                 mListDienThoai.add(mauDienThoai);
                                                 databaseHelper.insertDienThoai(mauDienThoai);
                                                 if (finalI == maxIndex) {
                                                     mLoadingDialog.dismiss();
                                                     DinhDang.sReloadedDatabase = 1;
-                                                    ;
                                                 }
-
                                             }
                                         }
 
@@ -208,9 +204,6 @@ public class TrangChu extends AppCompatActivity
                                                     mLoadingDialog.dismiss();
                                                     DinhDang.sReloadedDatabase = 1;
                                                 }
-                                    /*Toast.makeText(TrangChu.this, mauDienThoai.getAnh().length + "==" + mauDienThoai.getIdThuongHieu() + "==" + mauDienThoai.getId() + "==" +
-                                            mauDienThoai.getName() + "==" + mauDienThoai.getGia() + "==" + mauDienThoai.getAnhMatSau().length
-                                            + "==" + mauDienThoai.getAnhKhongChe().length, Toast.LENGTH_SHORT).show();*/
                                             }
                                         }
 
@@ -230,9 +223,6 @@ public class TrangChu extends AppCompatActivity
                                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                             mauDienThoai.setAnhMatSau(TrangChu.bitmapToByteArray(bitmap));
                                             if (mauDienThoai.getAnhKhongChe() != null && mauDienThoai.getAnh() != null) {
-                                    /*Toast.makeText(TrangChu.this, mauDienThoai.getAnh().length + "==" + mauDienThoai.getIdThuongHieu() + "==" + mauDienThoai.getId() + "==" +
-                                            mauDienThoai.getName() + "==" + mauDienThoai.getGia() + "==" + mauDienThoai.getAnhMatSau().length
-                                            + "==" + mauDienThoai.getAnhKhongChe().length, Toast.LENGTH_SHORT).show();*/
                                                 mListDienThoai.add(mauDienThoai);
                                                 databaseHelper.insertDienThoai(mauDienThoai);
                                                 if (finalI == maxIndex) {
@@ -270,7 +260,6 @@ public class TrangChu extends AppCompatActivity
                                             thuongHieu.setAnh(TrangChu.bitmapToByteArray(bitmap));
                                             mListThuongHieu.add(thuongHieu);
                                             databaseHelper.insertThuongHieu(thuongHieu);
-                                            //Toast.makeText(TrangChu.this, thuongHieu.getAnh().length +"=="+ thuongHieu.getId()+"=="+thuongHieu.getName(), Toast.LENGTH_SHORT).show();
                                         }
 
                                         @Override
@@ -301,8 +290,6 @@ public class TrangChu extends AppCompatActivity
                                             layout.setAnh(bitmapToByteArray(bitmap));
                                             mListLayout.add(layout);
                                             databaseHelper.insertLayout(layout);
-                               /* Toast.makeText(TrangChu.this, layout.getAnh().length + "=="+layout.getId()+"=="+layout.getSoHang()+"=="
-                                        +layout.getSoCot()+"=="+layout.getTen(), Toast.LENGTH_SHORT).show();*/
                                         }
 
                                         @Override
@@ -354,6 +341,7 @@ public class TrangChu extends AppCompatActivity
                         }
                     });
                     postResponseAsyncTask.execute(DinhDang.URL + "/phone_case_json.php");
+                    //lưu biến cập nhật dữ liệu
                     SharedPreferences luuCapNhatDuLieu = getSharedPreferences("capnhatdulieu", MODE_PRIVATE);
                     SharedPreferences.Editor editor = luuCapNhatDuLieu.edit();
                     editor.putString("db", capNhatDuLieu.getNoiDung());
@@ -364,15 +352,12 @@ public class TrangChu extends AppCompatActivity
         kiemTraDuLieuTask.setExceptionHandler(new ExceptionHandler() {
             @Override
             public void handleException(Exception e) {
-                if (capNhat.equals("none")){
+                if (capNhat.equals("none")) {
                     capNhatDuLieu.setNoiDung("none");
                 }
             }
         });
         kiemTraDuLieuTask.execute(DinhDang.URL + "/cap_nhat_du_lieu_json.php");
-
-
-
     }
 
     public static byte[] bitmapToByteArray(Bitmap bmp) {
@@ -421,7 +406,7 @@ public class TrangChu extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_home) {
-            Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
+
         } else if (id == R.id.nav_gallery) {
             Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_cart) {
@@ -429,7 +414,8 @@ public class TrangChu extends AppCompatActivity
         } else if (id == R.id.nav_invite) {
             Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_make_case) {
-            Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
+            Intent chuyenTrangChonLayout = new Intent(TrangChu.this, ChonKhungLayout.class);
+            startActivity(chuyenTrangChonLayout);
         } else if (id == R.id.nav_profile) {
             Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_promotion) {

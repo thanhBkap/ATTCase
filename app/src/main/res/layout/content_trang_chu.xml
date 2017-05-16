@@ -10,15 +10,15 @@
 
     <ImageView
         android:id="@+id/imgCase"
+        android:layout_above="@+id/layout_button"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="match_parent"
         android:src="@drawable/case3" />
 
     <RelativeLayout
         android:id="@+id/layout_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_alignBottom="@+id/imgCase"
         android:layout_alignParentBottom="true"
         android:background="@color/grey">
 

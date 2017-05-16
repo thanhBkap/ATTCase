@@ -93,10 +93,12 @@ public class ChonKhungLayout extends AppCompatActivity {
         mListMauDienThoai.clear();
         if (mListThuongHieu.size()>0){
             mListMauDienThoai.addAll(mDatabaseHelper.getListDienThoai(mListThuongHieu.get(0)));
+            DatHang.sDienThoaiID=mListMauDienThoai.get(0).getId();
         }
         mListLayout.clear();
         if (mListMauDienThoai.size()>0){
             mListLayout.addAll(mDatabaseHelper.getListLayout(mListMauDienThoai.get(0)));
+            DatHang.sLayoutID=mListLayout.get(0).getId();
         }
 
         mThuongHieuAdapter.notifyDataSetChanged();
@@ -108,6 +110,8 @@ public class ChonKhungLayout extends AppCompatActivity {
         mGridViewLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Layout layoutDuocChon= (Layout) parent.getItemAtPosition(position);
+                DatHang.sLayoutID=layoutDuocChon.getId();
                 Intent chuyenSangTrangChinhSuaCase = new Intent(ChonKhungLayout.this,XayDungCase.class);
                 chuyenSangTrangChinhSuaCase.putExtra("idMauDienThoai",layDienThoaiDaChon());
                 chuyenSangTrangChinhSuaCase.putExtra("idLayout",mListLayout.get(position).getId());
