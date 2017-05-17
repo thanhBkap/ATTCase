@@ -28,7 +28,7 @@ public class MauIconAdapter extends RecyclerView.Adapter<MauIconAdapter.ViewHold
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View itemView = layoutInflater.inflate(R.layout.anh_duoc_chon, parent, false);
-        itemView.setOnClickListener(XayDungCase.recyclerThemeClick);
+        itemView.setOnClickListener(XayDungCase.recyclerIconClick);
         return new ViewHolder(itemView);
     }
 

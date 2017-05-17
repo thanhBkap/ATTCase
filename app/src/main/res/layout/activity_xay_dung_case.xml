@@ -12,18 +12,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/rl_xaydungcase">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:id="@+id/img_case"
-            android:src="@drawable/ip_iphone6"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/rl_xaydungcase_icon"></RelativeLayout>
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:id="@+id/img_case"
+                android:src="@drawable/ip_iphone6"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/rl_xaydungcase_icon"></RelativeLayout>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,6 +38,13 @@
             android:id="@+id/ll_xaydungcase"
             android:layout_marginTop="10dp"
             android:orientation="horizontal"></LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_theme"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/none"/>
 
     </RelativeLayout>
 
@@ -60,25 +74,10 @@
         android:id="@+id/btn_save"/>
 
     <RelativeLayout
+        android:id="@+id/rl_icon"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_above="@+id/navigation"
-        android:id="@+id/rl_thietke_hieuung"
-        android:layout_marginBottom="10dp"
-        android:visibility="gone">
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/ic_effects"
-            android:id="@+id/btn_hieuung1"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_above="@+id/navigation"
-        android:id="@+id/rl_theme"
         android:layout_marginBottom="10dp"
         android:visibility="gone">
 
@@ -89,6 +88,33 @@
             android:id="@+id/rc_icon"
             android:visibility="visible"
             android:scrollbars="horizontal"></android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_theme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/navigation"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rc_theme1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:visibility="visible"
+            android:layout_alignParentBottom="true"
+            android:scrollbars="horizontal"></android.support.v7.widget.RecyclerView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rc_theme2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="visible"
+            android:scrollbars="horizontal"
+            android:layout_above="@+id/rc_theme1"></android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
     <LinearLayout
