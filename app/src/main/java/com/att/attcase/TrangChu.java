@@ -98,6 +98,7 @@ public class TrangChu extends AppCompatActivity
     }
 
     private void addControls() {
+
         databaseHelper = new DatabaseHelper(TrangChu.this);
         databaseHelper.checkDatabase(TrangChu.this);
         mTrangThaiThoat = false;
@@ -115,7 +116,11 @@ public class TrangChu extends AppCompatActivity
         }
         //cho lần đầu vào app sẽ kiểm tra dữ liệu
         if (DinhDang.sReloadedDatabase == 0) {
-            kiemTraCapNhatDuLieu();
+            if (DinhDang.isNetworkAvailable(TrangChu.this)){
+                kiemTraCapNhatDuLieu();
+            }else{
+                Toast.makeText(getApplicationContext(),"Không có kết nối mạng",Toast.LENGTH_LONG).show();
+            }
         }
     }
 
