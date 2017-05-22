@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.att.attcase.R;
+import com.att.attcase.XayDungCase;
 
 /**
  * Created by mac on 5/15/17.
@@ -20,17 +21,17 @@ import com.att.attcase.R;
 public class IconAdapter extends RelativeLayout {
     int baseh,basew,basex,basey;
     ImageButton btnXoaIcon,btnXoayIcon,btnPhongTo;
+    public ImageButton btnXacNhan;
     Context context;
     int imageInt;
     boolean freeze = false;
-    int i;
     ImageView imageIcon,imageVien;
     RelativeLayout layoutBg,layGroup;
     RelativeLayout.LayoutParams layoutParams;
     public LayoutInflater mInflater;
     int margl,margt;
-    Bitmap orginalBitmap;
     int pivx,pivy;
+    XayDungCase xdc;
 
     public int getImageInt() {
         return imageInt;
@@ -57,6 +58,7 @@ public class IconAdapter extends RelativeLayout {
         btnXoaIcon  = ((ImageButton) findViewById(R.id.xoa_icon));
         btnXoayIcon = ((ImageButton) findViewById(R.id.xoay_icon));
         btnPhongTo  = ((ImageButton) findViewById(R.id.phongto_icon));
+        btnXacNhan  = ((ImageButton) findViewById(R.id.xacnhan_icon));
         imageVien   = ((ImageView)   findViewById(R.id.icon_border));
         layoutParams = new RelativeLayout.LayoutParams(250,250);
         layGroup.setLayoutParams(layoutParams);
@@ -212,16 +214,26 @@ public class IconAdapter extends RelativeLayout {
                 }
             }
         });
+
+        xdc = new XayDungCase();
+        this.btnXacNhan.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                disableAll();
+            }
+        });
     }
 
     public void disableAll() {
+        btnXacNhan.setVisibility(INVISIBLE);
         btnXoaIcon.setVisibility(View.INVISIBLE);
         btnXoayIcon.setVisibility(View.INVISIBLE);
         btnPhongTo.setVisibility(View.INVISIBLE);
         imageVien.setVisibility(View.INVISIBLE);
     }
 
-    private void visiball() {
+    public void visiball() {
+        btnXacNhan.setVisibility(VISIBLE);
         btnXoaIcon.setVisibility(View.VISIBLE);
         btnXoayIcon.setVisibility(View.VISIBLE);
         btnPhongTo.setVisibility(View.VISIBLE);

@@ -50,4 +50,15 @@
         android:scaleType="fitCenter"
         android:background="@color/none"
         android:src="@drawable/close" />
+
+    <ImageButton
+        android:id="@+id/xacnhan_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+        android:background="@color/none"
+        android:src="@drawable/ic_check"/>
 </RelativeLayout>

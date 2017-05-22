@@ -112,6 +112,7 @@ public class DatHang extends AppCompatActivity {
         //khởi tạo và thêm dữ liệu
         listAnh = new ArrayList<>();
         listAnh.addAll(getIntentDatHang());
+
     }
 
     private void xuLyDatHang() {
