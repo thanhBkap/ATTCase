@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.att.attcase.R;
-import com.att.attcase.XayDungCase;
 
 /**
  * Created by mac on 5/15/17.
@@ -31,7 +30,6 @@ public class IconAdapter extends RelativeLayout {
     public LayoutInflater mInflater;
     int margl,margt;
     int pivx,pivy;
-    XayDungCase xdc;
 
     public int getImageInt() {
         return imageInt;
@@ -92,7 +90,7 @@ public class IconAdapter extends RelativeLayout {
                             int j = (int) event.getRawY();
                             layoutBg = (RelativeLayout) (getParent());
                             if ((i - basex > -(layGroup.getWidth()*2 / 3))
-                                    && (i - basex < layoutBg.getWidth() - layGroup.getWidth()/3)) {
+                                && (i - basex < layoutBg.getWidth() - layGroup.getWidth()/3)) {
                                 layoutParams.leftMargin = (i - basex);
                             }
 
@@ -214,8 +212,6 @@ public class IconAdapter extends RelativeLayout {
                 }
             }
         });
-
-        xdc = new XayDungCase();
         this.btnXacNhan.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,5 +235,4 @@ public class IconAdapter extends RelativeLayout {
         btnPhongTo.setVisibility(View.VISIBLE);
         imageVien.setVisibility(View.VISIBLE);
     }
-
 }

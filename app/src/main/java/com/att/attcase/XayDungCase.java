@@ -56,7 +56,6 @@ import java.util.Random;
 
 import static android.widget.Toast.makeText;
 
-
 public class XayDungCase extends AppCompatActivity implements android.view.View.OnClickListener, View.OnDragListener{
 
     //Khoi tao
@@ -314,6 +313,16 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         rcAnhDuocChon   = (RecyclerView) findViewById(R.id.rc_anhduocchon);
         llCongCu        = (LinearLayout) findViewById(R.id.ll_congcu);
 
+        // layout click
+        rlXayDungCase.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                CreateIcon(iconDuocChon);
+                disableall();
+            }
+        });
+
         //khoi tao recyclelayout
         rcAnhDuocChon.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -548,7 +557,6 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         }
     }
 
-
     // method random
     public static int rand(int min, int max) {
         try {
@@ -607,7 +615,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                     rlIcon.setVisibility(View.VISIBLE);
                     mTextMessage.setText("Icons");
                     return true;
-
+                
                case R.id.btn_anh_nen:
                     rlTheme.setVisibility(View.VISIBLE);
                     rlDanhSachAnh.setVisibility(View.GONE);
@@ -767,8 +775,6 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                 disableall();
             }
         });
-
-
     }
 
     public void disableall() {

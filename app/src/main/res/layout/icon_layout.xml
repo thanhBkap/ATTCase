@@ -50,7 +50,6 @@
         android:scaleType="fitCenter"
         android:background="@color/none"
         android:src="@drawable/close" />
-
     <ImageButton
         android:id="@+id/xacnhan_icon"
         android:layout_width="50dp"
