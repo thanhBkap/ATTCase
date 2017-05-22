@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.att.attcase.DatHang;
 import com.att.attcase.DinhDang;
 import com.att.attcase.R;
 import com.att.attcase.TrangChu;
@@ -107,6 +108,11 @@ public class MauDienThoaiAdapter extends RecyclerView.Adapter<MauDienThoaiAdapte
             layout_dien_thoai_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MauDienThoai dienThoaiDuocChon;
+                    dienThoaiDuocChon=mauDienThoaiHienTai(getAdapterPosition());
+                    //lưu lại id điện thoại để sử dụng sau
+                    DatHang.sDienThoaiID=dienThoaiDuocChon.getId();
+
                     for (MauDienThoai mauDienThoai : mListDienThoai) {
                         if (mauDienThoai.isChecked()) {
                             mauDienThoai.setChecked(false);

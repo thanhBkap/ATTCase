@@ -9,11 +9,11 @@
         android:id="@+id/btn_congcu"></item>
 
     <item android:title="Icons"
-        android:icon="@drawable/ic_theme"
+        android:icon="@drawable/ic_icons"
         android:id="@+id/btn_theme"></item>
 
-    <!--<item android:title="Effects"-->
-        <!--android:icon="@drawable/ic_effects"-->
-        <!--android:id="@+id/btn_hieuung"></item>-->
+    <item android:title="Themes"
+        android:icon="@drawable/ic_theme"
+        android:id="@+id/btn_anh_nen"></item>
 
 </menu>

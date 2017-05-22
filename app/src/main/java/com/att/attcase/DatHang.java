@@ -3,8 +3,6 @@ package com.att.attcase;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,8 +15,13 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.kosalgeek.android.photoutil.ImageBase64;
@@ -30,18 +33,21 @@ import java.util.List;
 import java.util.Map;
 
 public class DatHang extends AppCompatActivity {
-    RelativeLayout llDatHang;
+    public static String sLayoutID;
+    public static String sDienThoaiID;
+    private RelativeLayout llDatHang;
     private Toolbar mToolbar;
     private Button btnQuayLai, btnDatHang;
     private EditText txtTen, txtDiaChi, txtSoDienThoai, txtEmail;
-    List<Bitmap> listAnh;
-    int soReq=0;
-    int loi = 0;
-    ProgressDialog mLoadingDialog;
-    Intent getIntent;
-    ArrayList<String> arrayListAnhDuocChon;
-    Uri[]       uris;
-    int i = 0;
+    private List<Bitmap> listAnh;
+    private int soReq = 0;
+    private ProgressDialog mLoadingDialog;
+    private Intent getIntent;
+    private ArrayList<String> arrayListAnhDuocChon;
+    private Uri[] uris;
+    private Bitmap bitmap;
+    private boolean loiRequest = false;
+    private int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,16 +70,19 @@ public class DatHang extends AppCompatActivity {
             }
         });
     }
-    private void getIntentDatHang() {
+
+    private List<Bitmap> getIntentDatHang() {
+        List<Bitmap> bmAnhDuocChon;
+        bmAnhDuocChon = new ArrayList<>();
         getIntent = getIntent();
         arrayListAnhDuocChon = (ArrayList<String>) getIntent.getExtras().getSerializable("DsAnh");
-                uris = new Uri[arrayListAnhDuocChon.size()];
-                for (String e : arrayListAnhDuocChon) {
-                       uris[i] = Uri.parse(e);
-                       i++;
-                }
+        uris = new Uri[arrayListAnhDuocChon.size()];
+        for (String e : arrayListAnhDuocChon) {
+            uris[i] = Uri.parse(e);
+            i++;
+        }
 
-        for (int i = 0; i < uris.length;i++) {
+        for (int i = 0; i < uris.length; i++) {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uris[i]);
                 listAnh.add(bitmap);
@@ -81,8 +90,11 @@ public class DatHang extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        return bmAnhDuocChon;
+
     }
-    private void addControls(){
+
+    private void addControls() {
         //thiết lập action bar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -96,51 +108,66 @@ public class DatHang extends AppCompatActivity {
         txtSoDienThoai = (EditText) findViewById(R.id.txt_so_dien_thoai);
         txtTen = (EditText) findViewById(R.id.txt_ten);
         llDatHang = (RelativeLayout) findViewById(R.id.ll_dathang);
-    }
-
-    public static Bitmap drawableToBitmap(Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-        /*int width = drawable.getIntrinsicWidth();
-        width = width > 0 ? width : 1;
-        int height = drawable.getIntrinsicHeight();
-        height = height > 0 ? height : 1;
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);*/
-
-        return ((BitmapDrawable) drawable).getBitmap();
-
-
+        //khởi tạo và thêm dữ liệu
+        listAnh = new ArrayList<>();
+        listAnh.addAll(getIntentDatHang());
     }
 
     private void xuLyDatHang() {
         if (kiemTraTenHopLe() && kiemTraDiaChiHopLe() && kiemTraSoDienThoaiHopLe() && kiemTraEmailHopLe()) {
+            //một dialog thể hiện việc đang up dữ liệu lên server
             mLoadingDialog = new ProgressDialog(DatHang.this);
             mLoadingDialog.setTitle("Đang tải");
             mLoadingDialog.setMessage("Vui lòng đợi đặt hàng ...");
             mLoadingDialog.setIndeterminate(true);
             mLoadingDialog.setCancelable(false);
             mLoadingDialog.show();
+            String url = DinhDang.URL + "/dathang.php";
             final MyCommand myCommand = new MyCommand(getApplicationContext());
             for (int i = 0; i < listAnh.size(); i++) {
+                if (loiRequest==true){
+                    break;
+                }
                 try {
-                    Bitmap bitmap = listAnh.get(i);
+                    bitmap = listAnh.get(i);
                     final String encodedBitMap = ImageBase64.encode(bitmap);
-                    String url = DinhDang.URL + "/dathang.php";
                     StringRequest stringRequest;
+                    //request up lên đầy đủ các thông tin trừ ảnh ghép
                     if (i == 0) {
                         stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-
                             }
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                loi++;
+                                loiRequest = true;
+                                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                                    Toast.makeText(DatHang.this,
+                                            "lỗi timeout haowcj no connection",
+                                            Toast.LENGTH_LONG).show();
+                                } else if (error instanceof AuthFailureError) {
+                                    //TODO
+                                    Toast.makeText(DatHang.this,
+                                            "lỗi auth failure",
+                                            Toast.LENGTH_LONG).show();
+                                } else if (error instanceof ServerError) {
+                                    //TODO
+                                    Toast.makeText(DatHang.this,
+                                            "lỗi server",
+                                            Toast.LENGTH_LONG).show();
+                                } else if (error instanceof NetworkError) {
+                                    //TODO
+                                    Toast.makeText(DatHang.this,
+                                            "lỗi network",
+                                            Toast.LENGTH_LONG).show();
+                                } else if (error instanceof ParseError) {
+                                    //TODO
+                                    Toast.makeText(DatHang.this,
+                                            "lỗi parse error",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                                mLoadingDialog.dismiss();
                             }
                         }) {
                             @Override
@@ -151,6 +178,8 @@ public class DatHang extends AppCompatActivity {
                                 map.put("diachi", txtDiaChi.getText().toString());
                                 map.put("sodienthoai", txtSoDienThoai.getText().toString());
                                 map.put("email", txtEmail.getText().toString());
+                                map.put("dienthoaiid", sDienThoaiID);
+                                map.put("layoutid", sLayoutID);
                                 map.put("image", encodedBitMap);
                                 return map;
                             }
@@ -159,11 +188,12 @@ public class DatHang extends AppCompatActivity {
                         soReq++;
 
                     } else {
-
+                        //request up ảnh nhỏ
                         final int finalI = i;
                         stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                //chuyển về trang chủ khi up xong
                                 if (finalI == (listAnh.size() - 1)) {
                                     mLoadingDialog.dismiss();
                                     Intent quayVeTrangChu = new Intent(DatHang.this, TrangChu.class);
@@ -171,13 +201,38 @@ public class DatHang extends AppCompatActivity {
                                     quayVeTrangChu.putExtra("activity", "dathang");
                                     startActivity(quayVeTrangChu);
                                     finish();
-
                                 }
                             }
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                loi++;
+                                loiRequest = true;
+                                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                                    Toast.makeText(DatHang.this,
+                                            "lỗi timeout haowcj no connection",
+                                            Toast.LENGTH_LONG).show();
+                                } else if (error instanceof AuthFailureError) {
+                                    //TODO
+                                    Toast.makeText(DatHang.this,
+                                            "lỗi auth failure",
+                                            Toast.LENGTH_LONG).show();
+                                } else if (error instanceof ServerError) {
+                                    //TODO
+                                    Toast.makeText(DatHang.this,
+                                            "lỗi server",
+                                            Toast.LENGTH_LONG).show();
+                                } else if (error instanceof NetworkError) {
+                                    //TODO
+                                    Toast.makeText(DatHang.this,
+                                            "lỗi network",
+                                            Toast.LENGTH_LONG).show();
+                                } else if (error instanceof ParseError) {
+                                    //TODO
+                                    Toast.makeText(DatHang.this,
+                                            "lỗi parse error",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                                mLoadingDialog.dismiss();
                             }
                         }) {
                             @Override
@@ -188,21 +243,15 @@ public class DatHang extends AppCompatActivity {
                                 return map;
                             }
                         };
+                        //thêm vào list request
                         myCommand.add(stringRequest);
-                        soReq++;
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+            //thực thi list request
             myCommand.execute();
-            //Intent quayVeTrangChu = new Intent(DatHang.this, Test.class);
-            //quayVeTrangChu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            //quayVeTrangChu.putExtra("activity", "dathang");
-            //startActivity(quayVeTrangChu);
-            //  finish();
-           // Toast.makeText(getApplicationContext(),"Số req: "+soReq,Toast.LENGTH_SHORT).show();
         }
     }
 
