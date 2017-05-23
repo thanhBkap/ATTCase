@@ -90,7 +90,7 @@ public class IconAdapter extends RelativeLayout {
                             int j = (int) event.getRawY();
                             layoutBg = (RelativeLayout) (getParent());
                             if ((i - basex > -(layGroup.getWidth()*2 / 3))
-                                    && (i - basex < layoutBg.getWidth() - layGroup.getWidth()/3)) {
+                                && (i - basex < layoutBg.getWidth() - layGroup.getWidth()/3)) {
                                 layoutParams.leftMargin = (i - basex);
                             }
 

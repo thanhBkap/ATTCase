@@ -62,7 +62,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     Uri             imgUri;
     int             chieuDai, chieuRong, chieuDaiCase, chieuRongCase;
     Button          btnBack, btnSave, btnMoKhoAnh, btnRefresh, btnRandom,btnNextTheme2,
-            btnBackTheme2,btnNextTheme1,btnBackTheme1,btnBackIcon,btnNextIcon;
+                    btnBackTheme2,btnNextTheme1,btnBackTheme1,btnBackIcon,btnNextIcon;
     Bitmap          mAnhMatSauDienThoai, mAnhMatSauKhongCheDienThoai, mBitMapCase;
     String          mIdLayout, mIdMauDienThoai;
     Layout          mLayout;
@@ -605,7 +605,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                     rlIcon.setVisibility(View.VISIBLE);
                     mTextMessage.setText("Icons");
                     return true;
-
+                
                 case R.id.btn_anh_nen:
                     rlTheme.setVisibility(View.VISIBLE);
                     rlDanhSachAnh.setVisibility(View.GONE);

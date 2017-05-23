@@ -48,7 +48,6 @@ public class DatHang extends AppCompatActivity {
     private Bitmap bitmap;
     private boolean loiRequest = false;
     private int i = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +87,7 @@ public class DatHang extends AppCompatActivity {
         for (int i = 0; i < uris.length; i++) {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uris[i]);
-                bmAnhDuocChon.add(bitmap);
+                listAnh.add(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -122,6 +121,7 @@ public class DatHang extends AppCompatActivity {
             mLoadingDialog.setTitle("Đang tải");
             mLoadingDialog.setMessage("Vui lòng đợi đặt hàng ...");
             mLoadingDialog.setIndeterminate(true);
+            mLoadingDialog.setCancelable(false);
             mLoadingDialog.show();
             String url = DinhDang.URL + "/dathang.php";
             final MyCommand myCommand = new MyCommand(getApplicationContext());
