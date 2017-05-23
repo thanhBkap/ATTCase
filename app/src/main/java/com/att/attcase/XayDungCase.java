@@ -90,7 +90,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     BottomNavigationView navigation;
     static int[] danhsachIcon = {R.drawable.icon1,R.drawable.icon2,R.drawable.icon3,R.drawable.icon4,R.drawable.icon5,R.drawable.icon6,
             R.drawable.icon7,R.drawable.icon8,R.drawable.icon9,R.drawable.icon10,R.drawable.icon11,R.drawable.icon12,R.drawable.icon13,R.drawable.icon14,
-            R.drawable.icon15,R.drawable.icon16,R.drawable.icon17,R.drawable.icon18,R.drawable.icon19,R.drawable.icon20,R.drawable.icon21,R.drawable.icon22};
+            R.drawable.icon15,R.drawable.icon16,R.drawable.icon17,R.drawable.icon18,R.drawable.icon19,R.drawable.icon20};
     static int[] danhsachTheme = {R.drawable.theme1,R.drawable.theme2,R.drawable.theme3,R.drawable.theme4,R.drawable.theme5,
             R.drawable.theme6,R.drawable.theme7,R.drawable.theme8,R.drawable.theme9,R.drawable.theme10,
             R.drawable.theme11,R.drawable.theme12,R.drawable.theme13,R.drawable.theme14,R.drawable.theme15,
@@ -312,16 +312,6 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         // Recycler layout
         rcAnhDuocChon   = (RecyclerView) findViewById(R.id.rc_anhduocchon);
         llCongCu        = (LinearLayout) findViewById(R.id.ll_congcu);
-
-        // layout click
-        rlXayDungCase.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                CreateIcon(iconDuocChon);
-                disableall();
-            }
-        });
 
         //khoi tao recyclelayout
         rcAnhDuocChon.setHasFixedSize(true);
