@@ -258,7 +258,7 @@ public class TrangChu extends AppCompatActivity
                                     final ThuongHieu thuongHieu = new ThuongHieu();
                                     thuongHieu.setName(object.getString("ten"));
                                     thuongHieu.setId(object.getString("id"));
-                                    thuongHieu.setLinkAnh(DinhDang.URL + "/images/" + object.getString("logo"));
+                                    thuongHieu.setLinkAnh(DinhDang.URL + "/images/" + object.getString("logo9patch"));
                                     Target target = new Target() {
                                         @Override
                                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
