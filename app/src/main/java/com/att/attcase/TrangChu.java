@@ -116,10 +116,10 @@ public class TrangChu extends AppCompatActivity
         }
         //cho lần đầu vào app sẽ kiểm tra dữ liệu
         if (DinhDang.sReloadedDatabase == 0) {
-            if (DinhDang.isNetworkAvailable(TrangChu.this)){
+            if (DinhDang.isNetworkAvailable(TrangChu.this)) {
                 kiemTraCapNhatDuLieu();
-            }else{
-                Toast.makeText(getApplicationContext(),"Không có kết nối mạng",Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Không có kết nối mạng", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -411,27 +411,41 @@ public class TrangChu extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_home) {
-
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_gallery) {
             Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_cart) {
             Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_invite) {
             Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_make_case) {
             Intent chuyenTrangChonLayout = new Intent(TrangChu.this, ChonKhungLayout.class);
             startActivity(chuyenTrangChonLayout);
         } else if (id == R.id.nav_profile) {
             Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_promotion) {
             Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_store) {
             Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_view) {
             Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 }
