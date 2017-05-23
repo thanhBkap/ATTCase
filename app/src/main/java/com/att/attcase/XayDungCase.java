@@ -606,7 +606,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                     mTextMessage.setText("Icons");
                     return true;
                 
-               case R.id.btn_anh_nen:
+                case R.id.btn_anh_nen:
                     rlTheme.setVisibility(View.VISIBLE);
                     rlDanhSachAnh.setVisibility(View.GONE);
                     llCongCu.setVisibility(View.GONE);

@@ -66,7 +66,9 @@ public class DatHang extends AppCompatActivity {
         btnDatHang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                xuLyDatHang();
+                if (DinhDang.isNetworkAvailable(DatHang.this)){
+                    xuLyDatHang();
+                }
             }
         });
     }
@@ -91,7 +93,6 @@ public class DatHang extends AppCompatActivity {
             }
         }
         return bmAnhDuocChon;
-
     }
 
     private void addControls() {
@@ -125,7 +126,7 @@ public class DatHang extends AppCompatActivity {
             String url = DinhDang.URL + "/dathang.php";
             final MyCommand myCommand = new MyCommand(getApplicationContext());
             for (int i = 0; i < listAnh.size(); i++) {
-                if (loiRequest==true){
+                if (loiRequest == true) {
                     break;
                 }
                 try {
@@ -134,9 +135,19 @@ public class DatHang extends AppCompatActivity {
                     StringRequest stringRequest;
                     //request up lên đầy đủ các thông tin trừ ảnh ghép
                     if (i == 0) {
+                        final int finalI = i;
                         stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                //chuyển về trang chủ khi up xong
+                                if (finalI == (listAnh.size() - 1)) {
+                                    mLoadingDialog.dismiss();
+                                    Intent quayVeTrangChu = new Intent(DatHang.this, TrangChu.class);
+                                    quayVeTrangChu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    quayVeTrangChu.putExtra("activity", "dathang");
+                                    startActivity(quayVeTrangChu);
+                                    finish();
+                                }
                             }
                         }, new Response.ErrorListener() {
                             @Override
