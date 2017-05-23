@@ -258,7 +258,7 @@ public class TrangChu extends AppCompatActivity
                                     final ThuongHieu thuongHieu = new ThuongHieu();
                                     thuongHieu.setName(object.getString("ten"));
                                     thuongHieu.setId(object.getString("id"));
-                                    thuongHieu.setLinkAnh(DinhDang.URL + "/images/" + object.getString("logo9patch"));
+                                    thuongHieu.setLinkAnh(DinhDang.URL + "/images/" + object.getString("logo"));
                                     Target target = new Target() {
                                         @Override
                                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -445,7 +445,6 @@ public class TrangChu extends AppCompatActivity
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
         }
-
         return true;
     }
 }
