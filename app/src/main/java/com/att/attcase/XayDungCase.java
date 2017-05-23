@@ -69,7 +69,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     TextView        mTextMessage;
     ImageView       img_anh_mat_sau_khong_che,img_anh_mat_sau_che,img_khong_che;
     ImageView[]     listTheme2,listTheme1,listIcon;
-    LinearLayout    llXayDungCase, llCongCu;
+    LinearLayout    llXayDungCase, llCongCu , llTheme1;
     RelativeLayout  rlDanhSachAnh, rlIcon,rlTheme,rlMain;
     KieuKhungHinh   kieuKhungHinh;
     DatabaseHelper  mDatabaseHelper;
@@ -90,15 +90,15 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     BottomNavigationView navigation;
     static int[] danhsachIcon = {R.drawable.icon1,R.drawable.icon2,R.drawable.icon3,R.drawable.icon4,R.drawable.icon5,R.drawable.icon6,
             R.drawable.icon7,R.drawable.icon8,R.drawable.icon9,R.drawable.icon10,R.drawable.icon11,R.drawable.icon12,R.drawable.icon13,R.drawable.icon14,
-            R.drawable.icon15,R.drawable.icon16,R.drawable.icon17,R.drawable.icon18,R.drawable.icon19,R.drawable.icon20};
+            R.drawable.icon15,R.drawable.icon16,R.drawable.icon17,R.drawable.icon18};
     static int[] danhsachTheme = {R.drawable.theme1,R.drawable.theme2,R.drawable.theme3,R.drawable.theme4,R.drawable.theme5,
             R.drawable.theme6,R.drawable.theme7,R.drawable.theme8,R.drawable.theme9,R.drawable.theme10,
             R.drawable.theme11,R.drawable.theme12,R.drawable.theme13,R.drawable.theme14,R.drawable.theme15,
-            R.drawable.theme16,R.drawable.theme17,R.drawable.theme18,R.drawable.theme19,R.drawable.theme20};
+            R.drawable.theme16,R.drawable.theme17,R.drawable.theme18};
     static int[] danhsachTheme1 = {R.drawable.theme1,R.drawable.theme2,R.drawable.theme3,R.drawable.theme4,R.drawable.theme5,
             R.drawable.theme6,R.drawable.theme7,R.drawable.theme8,R.drawable.theme9,R.drawable.theme10,
             R.drawable.theme11,R.drawable.theme12,R.drawable.theme13,R.drawable.theme14,R.drawable.theme15,
-            R.drawable.theme16,R.drawable.theme17,R.drawable.theme18,R.drawable.theme19,R.drawable.theme20};
+            R.drawable.theme16,R.drawable.theme17,R.drawable.theme18};
     int    currentTheme2 = 0,currentTheme1 = 0,currentIcon;
     Boolean duringBack2 = false,duringBack1 = false,duringIBack = false;
 
@@ -110,10 +110,10 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     }
 
     private int nextTheme(int currentTheme, int[] listtheme,ImageView[] listtheme1) {
-        int k = currentTheme + 5;
+        int k = currentTheme + 3;
         if (currentTheme < listtheme.length) {
             for (; currentTheme < k ; currentTheme++) {
-                int position = currentTheme % 5;
+                int position = currentTheme % 3;
                 listtheme1[position].setImageResource(listtheme[currentTheme]);
                 Log.e("a",currentTheme + " ");
             }
@@ -125,10 +125,10 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     }
 
     private int backTheme(int currentTheme, int[] listtheme,ImageView[] listtheme1) {
-        int k = currentTheme - 5;
+        int k = currentTheme - 3;
         if (currentTheme > 0 ) {
             for (; currentTheme > k ; currentTheme--) {
-                int position = currentTheme % 5;
+                int position = currentTheme % 3;
                 listtheme1[position].setImageResource(listtheme[currentTheme]);
                 Log.e("a",currentTheme + " ");
             }
@@ -206,7 +206,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
 
             case R.id.btn_nexttheme2:
                 if (duringBack2 == true ) {
-                    currentTheme2 = currentTheme2 + 6;
+                    currentTheme2 = currentTheme2 + 4;
                     duringBack2 = false;
                 }
                 currentTheme2 = nextTheme(currentTheme2,danhsachTheme1,listTheme2);
@@ -214,31 +214,31 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
 
             case R.id.btn_backtheme2:
                 if (duringBack2 == false) {
-                    currentTheme2 = currentTheme2 - 6;
+                    currentTheme2 = currentTheme2 - 4;
                     duringBack2 = true;
                 }
                 currentTheme2 = backTheme(currentTheme2,danhsachTheme1,listTheme2);
                 break;
 
-            case R.id.btn_nexttheme1:
-                if (duringBack1 == true ) {
-                    currentTheme1 = currentTheme1 + 6;
-                    duringBack1 = false;
-                }
-                currentTheme1 = nextTheme(currentTheme1,danhsachTheme,listTheme1);
-                break;
+//            case R.id.btn_nexttheme1:
+//                if (duringBack1 == true ) {
+//                    currentTheme1 = currentTheme1 + 6;
+//                    duringBack1 = false;
+//                }
+//                currentTheme1 = nextTheme(currentTheme1,danhsachTheme,listTheme1);
+//                break;
 
-            case R.id.btn_backtheme1:
-                if (duringBack1 == false) {
-                    currentTheme1 = currentTheme1 - 6;
-                    duringBack1 = true;
-                }
-                currentTheme1 = backTheme(currentTheme1,danhsachTheme,listTheme1);
-                break;
+//            case R.id.btn_backtheme1:
+//                if (duringBack1 == false) {
+//                    currentTheme1 = currentTheme1 - 6;
+//                    duringBack1 = true;
+//                }
+//                currentTheme1 = backTheme(currentTheme1,danhsachTheme,listTheme1);
+//                break;
 
             case R.id.btn_nexticon:
                 if (duringIBack == true ) {
-                    currentIcon = currentIcon + 6;
+                    currentIcon = currentIcon + 4;
                     duringIBack = false;
                 }
                 currentIcon = nextTheme(currentIcon,danhsachIcon,listIcon);
@@ -246,7 +246,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
 
             case R.id.btn_backicon:
                 if (duringIBack == false) {
-                    currentIcon = currentIcon - 6;
+                    currentIcon = currentIcon - 4;
                     duringIBack = true;
                 }
                 currentIcon = backTheme(currentIcon,danhsachIcon,listIcon);
@@ -395,20 +395,20 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         }
 
         // List Theme 2
-        listTheme2 = new ImageView[5];
+        listTheme2 = new ImageView[3];
         listTheme2[0] = (ImageView) findViewById(R.id.img_theme21);
         listTheme2[1] = (ImageView) findViewById(R.id.img_theme22);
         listTheme2[2] = (ImageView) findViewById(R.id.img_theme23);
-        listTheme2[3] = (ImageView) findViewById(R.id.img_theme24);
-        listTheme2[4] = (ImageView) findViewById(R.id.img_theme25);
+//        listTheme2[3] = (ImageView) findViewById(R.id.img_theme24);
+//        listTheme2[4] = (ImageView) findViewById(R.id.img_theme25);
         currentTheme2 = nextTheme(currentTheme2,danhsachTheme1,listTheme2);
-        for (int i = 0 ; i < 5 ; i ++) {
+        for (int i = 0 ; i < 3 ; i ++) {
             final int finalI = i;
             listTheme2[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (duringBack2 == false) {
-                        int z = currentTheme2 - 5 + finalI;
+                        int z = currentTheme2 - 3 + finalI;
                         imgTheme.setImageResource(danhsachTheme1[z]);
                     } else {
                         int z = currentTheme2 + finalI + 1;
@@ -423,54 +423,54 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         btnBackTheme2.setOnClickListener(this);
 
         // List Theme1
-        listTheme1 = new ImageView[5];
-        listTheme1[0] = (ImageView) findViewById(R.id.img_theme11);
-        listTheme1[1] = (ImageView) findViewById(R.id.img_theme12);
-        listTheme1[2] = (ImageView) findViewById(R.id.img_theme13);
-        listTheme1[3] = (ImageView) findViewById(R.id.img_theme14);
-        listTheme1[4] = (ImageView) findViewById(R.id.img_theme15);
-        btnNextTheme1 = (Button) findViewById(R.id.btn_nexttheme1);
-        btnNextTheme1.setOnClickListener(this);
-        btnBackTheme1 = (Button) findViewById(R.id.btn_backtheme1);
-        btnBackTheme1.setOnClickListener(this);
-        currentTheme1 = nextTheme(currentTheme1,danhsachTheme,listTheme1);
-        for (int i = 0 ; i < 5 ; i ++) {
-            final int finalI = i;
-            listTheme1[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (duringBack1 == false) {
-                        int z = currentTheme1 - 5 + finalI;
-                        icon.setImageInt(danhsachTheme[z]);
-                        icon.setVisibility(View.VISIBLE);
-                    } else {
-                        int z = currentTheme1 + finalI + 1;
-                        icon.setImageInt(danhsachTheme[z]);
-                        icon.setVisibility(View.VISIBLE);
-                    }
-                }
-            });
-        }
+//        listTheme1 = new ImageView[5];
+//        listTheme1[0] = (ImageView) findViewById(R.id.img_theme11);
+//        listTheme1[1] = (ImageView) findViewById(R.id.img_theme12);
+//        listTheme1[2] = (ImageView) findViewById(R.id.img_theme13);
+//        listTheme1[3] = (ImageView) findViewById(R.id.img_theme14);
+//        listTheme1[4] = (ImageView) findViewById(R.id.img_theme15);
+//        btnNextTheme1 = (Button) findViewById(R.id.btn_nexttheme1);
+//        btnNextTheme1.setOnClickListener(this);
+//        btnBackTheme1 = (Button) findViewById(R.id.btn_backtheme1);
+//        btnBackTheme1.setOnClickListener(this);
+//        currentTheme1 = nextTheme(currentTheme1,danhsachTheme,listTheme1);
+//        for (int i = 0 ; i < 5 ; i ++) {
+//            final int finalI = i;
+//            listTheme1[i].setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (duringBack1 == false) {
+//                        int z = currentTheme1 - 5 + finalI;
+//                        icon.setImageInt(danhsachTheme[z]);
+//                        icon.setVisibility(View.VISIBLE);
+//                    } else {
+//                        int z = currentTheme1 + finalI + 1;
+//                        icon.setImageInt(danhsachTheme[z]);
+//                        icon.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//            });
+//        }
 
         // List icon
-        listIcon = new ImageView[5];
+        listIcon = new ImageView[3];
         listIcon[0] = (ImageView) findViewById(R.id.img_icon11);
         listIcon[1] = (ImageView) findViewById(R.id.img_icon12);
         listIcon[2] = (ImageView) findViewById(R.id.img_icon13);
-        listIcon[3] = (ImageView) findViewById(R.id.img_icon14);
-        listIcon[4] = (ImageView) findViewById(R.id.img_icon15);
+//        listIcon[3] = (ImageView) findViewById(R.id.img_icon14);
+//        listIcon[4] = (ImageView) findViewById(R.id.img_icon15);
         btnNextIcon = (Button) findViewById(R.id.btn_nexticon);
         btnBackIcon = (Button) findViewById(R.id.btn_backicon);
         btnNextIcon.setOnClickListener(this);
         btnBackIcon.setOnClickListener(this);
         currentIcon = nextTheme(currentIcon,danhsachIcon,listIcon);
-        for (int i = 0 ; i < 5 ; i ++) {
+        for (int i = 0 ; i < 3 ; i ++) {
             final int finalI = i;
             listIcon[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (duringIBack == false) {
-                        int z = currentIcon - 5 + finalI;
+                        int z = currentIcon - 3 + finalI;
                         icon.setImageInt(danhsachIcon[z]);
                         icon.setVisibility(View.VISIBLE);
                     } else {
