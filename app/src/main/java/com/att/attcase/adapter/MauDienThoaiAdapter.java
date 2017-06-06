@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.att.attcase.DatHang;
 import com.att.attcase.DinhDang;
 import com.att.attcase.R;
+import com.att.attcase.ThongTinDonHang;
 import com.att.attcase.TrangChu;
 import com.att.attcase.database.DatabaseHelper;
 import com.att.attcase.model.Layout;
@@ -68,8 +69,10 @@ public class MauDienThoaiAdapter extends RecyclerView.Adapter<MauDienThoaiAdapte
             holder.mTxtTen.setText(mauDienThoaiHienTai(position).getName());
             holder.txt_ten_dien_thoai.setTextColor(mContext.getResources().getColor(R.color.red));
             holder.mTxtGia.setText(DinhDang.chuyenThanhDinhDangGia(mauDienThoaiHienTai(position).getGia()));
+            ThongTinDonHang.giatien = holder.mTxtGia.getText().toString();
+            ThongTinDonHang.tenmay  = holder.mTxtTen.getText().toString();
             updateLayoutList(mauDienThoaiHienTai(position));
-        }else {
+        } else {
             holder.txt_ten_dien_thoai.setTextColor(mContext.getResources().getColor(R.color.grey));
         }
         holder.layout_dien_thoai_item.setBackgroundColor(Color.TRANSPARENT);

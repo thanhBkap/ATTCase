@@ -63,21 +63,20 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     Uri imgUri;
     int chieuDai, chieuRong, chieuDaiCase, chieuRongCase;
     Button btnBack, btnSave, btnMoKhoAnh, btnRefresh, btnRandom, btnNextTheme2,
-            btnBackTheme2, btnNextTheme1, btnBackTheme1, btnBackIcon, btnNextIcon, btnBack2, btnSave2;
+            btnBackTheme2, btnBackIcon, btnNextIcon, btnBack2, btnSave2;
     Bitmap mAnhMatSauDienThoai, mAnhMatSauKhongCheDienThoai, mBitMapCase;
     String mIdLayout, mIdMauDienThoai;
     Layout mLayout;
     TextView mTextMessage;
     ImageView img_anh_mat_sau_khong_che, img_anh_mat_sau_che, img_khong_che;
-    ImageView[] listTheme2, listTheme1, listIcon;
-    LinearLayout llXayDungCase, llCongCu, llTheme1;
+    ImageView[] listTheme2, listIcon;
+    LinearLayout llXayDungCase, llCongCu;
     RelativeLayout rlDanhSachAnh, rlIcon, rlTheme, rlMain;
     KieuKhungHinh kieuKhungHinh;
     DatabaseHelper mDatabaseHelper;
     KhoAnhAdapter khoAnhAdapter;
     ArrayList<String> dsAnhString;
     private Toolbar mToolbar;
-
     static int onTouchIndex, toadoX, toadoY, iconDuocChon = 0;
     private long mDatHangClick;
     static Uri uriAnhDangDung, getUri, caseUri;
@@ -103,8 +102,8 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
             R.drawable.theme6, R.drawable.theme7, R.drawable.theme8, R.drawable.theme9, R.drawable.theme10,
             R.drawable.theme11, R.drawable.theme12, R.drawable.theme13, R.drawable.theme14, R.drawable.theme15,
             R.drawable.theme16, R.drawable.theme17, R.drawable.theme18};
-    int currentTheme2 = 0, currentTheme1 = 0, currentIcon;
-    Boolean duringBack2 = false, duringBack1 = false, duringIBack = false;
+    int currentTheme2 = 0, currentIcon;
+    Boolean duringBack2 = false, duringIBack = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +118,6 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
             for (; currentTheme < k; currentTheme++) {
                 int position = currentTheme % 3;
                 listtheme1[position].setImageResource(listtheme[currentTheme]);
-                Log.e("a", currentTheme + " ");
             }
         } else {
             Toast.makeText(this, "Bạn đã tới những hình nền cuối cùng", Toast.LENGTH_SHORT).show();
@@ -159,13 +157,18 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                 if (Math.abs(currentTime - mDatHangClick) > mDatHangXacNhan) {
                     rlXayDungCase.removeView(img_khong_che);
                     rlXayDungCase.addView(img_khong_che);
-                    rlXayDungCase.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mBitMapCase = captureScreen(rlXayDungCase);
-                            caseUri = getImageUri(getApplicationContext(), mBitMapCase);
-                        }
-                    });
+//                    rlXayDungCase.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            mBitMapCase = captureScreen(rlXayDungCase);
+//                            caseUri = getImageUri(getApplicationContext(), mBitMapCase);
+//                        }
+//                    });
+
+                    rlXayDungCase.setDrawingCacheEnabled(true);
+                    mBitMapCase = Bitmap.createBitmap(rlXayDungCase.getDrawingCache());
+                    caseUri = getImageUri(getApplicationContext(), mBitMapCase);
+
                     makeText(XayDungCase.this, "mời bạn nhấn thêm lần nữa để xác nhận đơn đặt hàng", Toast.LENGTH_SHORT).show();
                     mDatHangClick = currentTime;
                 } else {
@@ -179,25 +182,11 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                     }
 
                     //chuyển sang màn hình đặt hàng
-                    Intent intentDatHang = new Intent(XayDungCase.this, DatHang.class);
+                    Intent intentDatHang = new Intent(XayDungCase.this, ThongTinDonHang.class);
                     intentDatHang.putExtra("DsAnh", dsAnhString);
                     startActivity(intentDatHang);
                 }
 
-                /*mBitMapCase = captureScreen(rlXayDungCase);
-                caseUri = getImageUri(getApplicationContext(), mBitMapCase);
-                String themePick = imgTheme.getDrawable().toString();
-               // dsAnhString.add(caseUri.toString());
-                dsAnhString.add(themePick);
-                //thêm các ảnh nhỏ
-                for (AnhDuocChon a : arrayList) {
-                    dsAnhString.add(a.getUriHinhAnh().toString());
-                }
-
-                //chuyển sang màn hình đặt hàng
-                Intent intentDatHang = new Intent(XayDungCase.this, DatHang.class);
-                intentDatHang.putExtra("DsAnh", dsAnhString);
-                startActivity(intentDatHang);*/
                 break;
 
             case R.id.btn_mokhoanh:
@@ -238,22 +227,6 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                 }
                 currentTheme2 = backTheme(currentTheme2, danhsachTheme1, listTheme2);
                 break;
-
-//            case R.id.btn_nexttheme1:
-//                if (duringBack1 == true ) {
-//                    currentTheme1 = currentTheme1 + 6;
-//                    duringBack1 = false;
-//                }
-//                currentTheme1 = nextTheme(currentTheme1,danhsachTheme,listTheme1);
-//                break;
-
-//            case R.id.btn_backtheme1:
-//                if (duringBack1 == false) {
-//                    currentTheme1 = currentTheme1 - 6;
-//                    duringBack1 = true;
-//                }
-//                currentTheme1 = backTheme(currentTheme1,danhsachTheme,listTheme1);
-//                break;
 
             case R.id.btn_nexticon:
                 if (duringIBack == true) {
@@ -453,43 +426,12 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         btnBackTheme2 = (Button) findViewById(R.id.btn_backtheme2);
         btnBackTheme2.setOnClickListener(this);
 
-        // List Theme1
-//        listTheme1 = new ImageView[5];
-//        listTheme1[0] = (ImageView) findViewById(R.id.img_theme11);
-//        listTheme1[1] = (ImageView) findViewById(R.id.img_theme12);
-//        listTheme1[2] = (ImageView) findViewById(R.id.img_theme13);
-//        listTheme1[3] = (ImageView) findViewById(R.id.img_theme14);
-//        listTheme1[4] = (ImageView) findViewById(R.id.img_theme15);
-//        btnNextTheme1 = (Button) findViewById(R.id.btn_nexttheme1);
-//        btnNextTheme1.setOnClickListener(this);
-//        btnBackTheme1 = (Button) findViewById(R.id.btn_backtheme1);
-//        btnBackTheme1.setOnClickListener(this);
-//        currentTheme1 = nextTheme(currentTheme1,danhsachTheme,listTheme1);
-//        for (int i = 0 ; i < 5 ; i ++) {
-//            final int finalI = i;
-//            listTheme1[i].setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (duringBack1 == false) {
-//                        int z = currentTheme1 - 5 + finalI;
-//                        icon.setImageInt(danhsachTheme[z]);
-//                        icon.setVisibility(View.VISIBLE);
-//                    } else {
-//                        int z = currentTheme1 + finalI + 1;
-//                        icon.setImageInt(danhsachTheme[z]);
-//                        icon.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//            });
-//        }
-
         // List icon
         listIcon = new ImageView[3];
         listIcon[0] = (ImageView) findViewById(R.id.img_icon11);
         listIcon[1] = (ImageView) findViewById(R.id.img_icon12);
         listIcon[2] = (ImageView) findViewById(R.id.img_icon13);
-//        listIcon[3] = (ImageView) findViewById(R.id.img_icon14);
-//        listIcon[4] = (ImageView) findViewById(R.id.img_icon15);
+
         btnNextIcon = (Button) findViewById(R.id.btn_nexticon);
         btnBackIcon = (Button) findViewById(R.id.btn_backicon);
         btnNextIcon.setOnClickListener(this);

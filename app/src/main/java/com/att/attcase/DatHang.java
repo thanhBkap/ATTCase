@@ -36,6 +36,7 @@ public class DatHang extends AppCompatActivity {
     public static String sLayoutID;
     public static String sDienThoaiID;
     public static String sDienThoai;
+    public static String giatien;
     private RelativeLayout llDatHang;
     private Toolbar mToolbar;
     private Button btnQuayLai, btnDatHang;
