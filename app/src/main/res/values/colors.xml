@@ -11,4 +11,7 @@
     <color name="none">#00ffffff</color>
     <color name="darkWhite">#c9c3c3</color>
     <color name="lightGreen">#3BB54A</color>
+    <color name="yeallow">#ffff00</color>
+    <color name="red">#e71923</color>
+
 </resources>

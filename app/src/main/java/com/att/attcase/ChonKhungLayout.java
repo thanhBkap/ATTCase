@@ -100,7 +100,7 @@ public class ChonKhungLayout extends AppCompatActivity {
             mListLayout.addAll(mDatabaseHelper.getListLayout(mListMauDienThoai.get(0)));
             DatHang.sLayoutID=mListLayout.get(0).getId();
         }
-
+        DatHang.sDienThoai="Iphone 5";
         mThuongHieuAdapter.notifyDataSetChanged();
         mMauDienThoaiAdapter.notifyDataSetChanged();
         mLayoutAdapter.notifyDataSetChanged();
@@ -110,6 +110,7 @@ public class ChonKhungLayout extends AppCompatActivity {
         mGridViewLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Layout layoutDuocChon= (Layout) parent.getItemAtPosition(position);
                 DatHang.sLayoutID=layoutDuocChon.getId();
                 Intent chuyenSangTrangChinhSuaCase = new Intent(ChonKhungLayout.this,XayDungCase.class);

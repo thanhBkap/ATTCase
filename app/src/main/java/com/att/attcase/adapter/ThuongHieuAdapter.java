@@ -54,7 +54,7 @@ public class ThuongHieuAdapter extends RecyclerView.Adapter<ThuongHieuAdapter.Vi
         //cài đặt màu cho item được select
         if (mListThuongHieu.get(position).isChecked()) {
             //holder.mLayout_thuong_hieu_item.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
-            holder.mLayout_thuong_hieu_item.setBackground(mContext.getResources().getDrawable(R.drawable.vien_anh_dien_thoai));
+            holder.mLayout_thuong_hieu_item.setBackground(mContext.getResources().getDrawable(R.drawable.vien_thuong_hieu));
         } else {
             holder.mLayout_thuong_hieu_item.setBackgroundColor(mContext.getResources().getColor(R.color.white));
         }

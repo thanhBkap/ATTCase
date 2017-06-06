@@ -3,7 +3,7 @@
     android:id="@+id/layout_dien_thoai_item"
     android:layout_width="100dp"
     android:layout_height="100dp"
-    android:background="@drawable/vien_anh_dien_thoai">
+    >
 
     <ImageView
         android:id="@+id/img_dien_thoai"
