@@ -146,9 +146,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_quay_lai:
-                Intent intent = new Intent(XayDungCase.this, ChonKhungLayout.class);
-                startActivity(intent);
-                finish();
+                onBackPressed();
                 break;
 
             case R.id.btn_save2:
