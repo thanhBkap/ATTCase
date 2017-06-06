@@ -5,44 +5,29 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/home2"
-            android:title="Home" />
+            android:title="Trang chủ" />
         <item
             android:id="@+id/nav_make_case"
-            android:icon="@drawable/ic_case"
-            android:title="Make your case" />
+            android:icon="@drawable/ic_tao"
+            android:title="Tạo ốp ngay" />
         <item
             android:id="@+id/nav_cart"
             android:icon="@drawable/cart2"
-            android:title="Cart" />
+            android:title="Giỏ hàng" />
         <item
             android:id="@+id/nav_store"
             android:icon="@drawable/store2"
-            android:title="Store" />
+            android:title="Mua sắm" />
         <item
-            android:id="@+id/nav_promotion"
-            android:icon="@drawable/ic_promotion"
-            android:title="Promotions" />
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/id_profile2"
+            android:title="Tài khoản" />
     </group>
 
-    <item android:title="My Account">
-        <menu>
-            <item
-                android:id="@+id/nav_profile"
-                android:icon="@drawable/id_profile2"
-                android:title="Profile" />
-            <item
-                android:id="@+id/nav_gallery"
-                android:icon="@drawable/ic_menu_gallery"
-                android:title="My Gallery" />
-            <item
-                android:id="@+id/nav_invite"
-                android:icon="@drawable/ic_invite2"
-                android:title="Invite friends" />
-           <!-- <item
-                android:id="@+id/nav_log_out"
-                android:icon="@drawable/ic_logout2"
-                android:title="Log out" />-->
-        </menu>
-    </item>
+
+
+
+
+
 
 </menu>

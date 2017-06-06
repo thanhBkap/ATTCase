@@ -23,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.DragEvent;
@@ -62,7 +63,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     Uri imgUri;
     int chieuDai, chieuRong, chieuDaiCase, chieuRongCase;
     Button btnBack, btnSave, btnMoKhoAnh, btnRefresh, btnRandom, btnNextTheme2,
-            btnBackTheme2, btnNextTheme1, btnBackTheme1, btnBackIcon, btnNextIcon;
+            btnBackTheme2, btnNextTheme1, btnBackTheme1, btnBackIcon, btnNextIcon, btnBack2, btnSave2;
     Bitmap mAnhMatSauDienThoai, mAnhMatSauKhongCheDienThoai, mBitMapCase;
     String mIdLayout, mIdMauDienThoai;
     Layout mLayout;
@@ -75,6 +76,8 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     DatabaseHelper mDatabaseHelper;
     KhoAnhAdapter khoAnhAdapter;
     ArrayList<String> dsAnhString;
+    private Toolbar mToolbar;
+
     static int onTouchIndex, toadoX, toadoY, iconDuocChon = 0;
     private long mDatHangClick;
     static Uri uriAnhDangDung, getUri, caseUri;
@@ -83,6 +86,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     static ArrayList<AnhDuocChon> arrayList;
     private File outPutFile = null;
     static IconAdapter icon;
+    TextView mTxtTen;
     private static RelativeLayout rlXayDungCase;
     private static RecyclerView rcAnhDuocChon;
     public static View.OnTouchListener recyclerImageTouch;
@@ -143,12 +147,13 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_back:
+            case R.id.btn_quay_lai:
                 Intent intent = new Intent(XayDungCase.this, ChonKhungLayout.class);
                 startActivity(intent);
+                finish();
                 break;
 
-            case R.id.btn_save:
+            case R.id.btn_save2:
                 long mDatHangXacNhan = 3500;
                 long currentTime = System.currentTimeMillis();
                 if (Math.abs(currentTime - mDatHangClick) > mDatHangXacNhan) {
@@ -269,6 +274,14 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     }
 
     private void addControls() {
+        //thiết lập action bar
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+        mTxtTen = (TextView) mToolbar.findViewById(R.id.txtTen);
+        mTxtTen.setText(DatHang.sDienThoai);
         // Xu ly database
         Intent nhanDuLieu = getIntent();
         mIdMauDienThoai = nhanDuLieu.getStringExtra("idMauDienThoai");
@@ -305,10 +318,14 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
         btnMoKhoAnh = (Button) findViewById(R.id.btn_mokhoanh);
         btnRandom = (Button) findViewById(R.id.btn_random);
         btnRefresh = (Button) findViewById(R.id.btn_refresh);
+        btnBack2 = (Button) mToolbar.findViewById(R.id.btn_quay_lai);
+        btnSave2 = (Button) mToolbar.findViewById(R.id.btn_save2);
 
         // Button click
+        btnBack2.setOnClickListener(this);
         btnBack.setOnClickListener(this);
         btnSave.setOnClickListener(this);
+        btnSave2.setOnClickListener(this);
         btnMoKhoAnh.setOnClickListener(this);
         btnRefresh.setOnClickListener(this);
         btnRandom.setOnClickListener(this);

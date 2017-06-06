@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -29,7 +30,6 @@ import com.att.attcase.model.MauDienThoai;
 import java.util.List;
 
 
-
 public class MauDienThoaiAdapter extends RecyclerView.Adapter<MauDienThoaiAdapter.ViewHolder> {
     private Context mContext;
     private List<MauDienThoai> mListDienThoai;
@@ -45,7 +45,7 @@ public class MauDienThoaiAdapter extends RecyclerView.Adapter<MauDienThoaiAdapte
         mListDienThoai = listDienThoai;
         mToolbar = toolbar;
         mLayoutAdapter = layoutAdapter;
-        mLayoutList=layoutList;
+        mLayoutList = layoutList;
     }
 
     @Override
@@ -64,17 +64,18 @@ public class MauDienThoaiAdapter extends RecyclerView.Adapter<MauDienThoaiAdapte
     public void onBindViewHolder(MauDienThoaiAdapter.ViewHolder holder, int position) {
         //cài đặt màu cho item được select
         if (mauDienThoaiHienTai(position).isChecked()) {
-            holder.layout_dien_thoai_item.setBackground(mContext.getResources().getDrawable(R.drawable.vien_anh_dien_thoai));
+        //    holder.layout_dien_thoai_item.setBackground(mContext.getResources().getDrawable(R.drawable.vien_anh_dien_thoai));
             holder.mTxtTen.setText(mauDienThoaiHienTai(position).getName());
+            holder.txt_ten_dien_thoai.setTextColor(mContext.getResources().getColor(R.color.red));
             holder.mTxtGia.setText(DinhDang.chuyenThanhDinhDangGia(mauDienThoaiHienTai(position).getGia()));
             updateLayoutList(mauDienThoaiHienTai(position));
-        } else {
-            holder.layout_dien_thoai_item.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+        }else {
+            holder.txt_ten_dien_thoai.setTextColor(mContext.getResources().getColor(R.color.grey));
         }
+        holder.layout_dien_thoai_item.setBackgroundColor(Color.TRANSPARENT);
         holder.img_dien_thoai.setImageBitmap(getBitmapImage(position));
         holder.txt_ten_dien_thoai.setText(mauDienThoaiHienTai(position).getName());
     }
-
 
     // chuyển đổi ảnh từ dạng byte array sang dạng bitmap
     public Bitmap getBitmapImage(int position) {
@@ -102,6 +103,7 @@ public class MauDienThoaiAdapter extends RecyclerView.Adapter<MauDienThoaiAdapte
             img_dien_thoai = (ImageView) itemView.findViewById(R.id.img_dien_thoai);
             txt_ten_dien_thoai = (TextView) itemView.findViewById(R.id.txt_ten_dien_thoai);
             layout_dien_thoai_item = (RelativeLayout) itemView.findViewById(R.id.layout_dien_thoai_item);
+            getAdapterPosition();
             //hiển thị thông tin ban đầu của điện thoại ở vị trí đầu tiên
             mTxtGia.setText(DinhDang.chuyenThanhDinhDangGia(mauDienThoaiHienTai(0).getGia()));
             mTxtTen.setText(mauDienThoaiHienTai(0).getName());
@@ -109,9 +111,9 @@ public class MauDienThoaiAdapter extends RecyclerView.Adapter<MauDienThoaiAdapte
                 @Override
                 public void onClick(View v) {
                     MauDienThoai dienThoaiDuocChon;
-                    dienThoaiDuocChon=mauDienThoaiHienTai(getAdapterPosition());
+                    dienThoaiDuocChon = mauDienThoaiHienTai(getAdapterPosition());
                     //lưu lại id điện thoại để sử dụng sau
-                    DatHang.sDienThoaiID=dienThoaiDuocChon.getId();
+                    DatHang.sDienThoaiID = dienThoaiDuocChon.getId();
 
                     for (MauDienThoai mauDienThoai : mListDienThoai) {
                         if (mauDienThoai.isChecked()) {
@@ -120,9 +122,9 @@ public class MauDienThoaiAdapter extends RecyclerView.Adapter<MauDienThoaiAdapte
                         }
                     }
                     updateLayoutList(mauDienThoaiHienTai(getAdapterPosition()));
-
                     mauDienThoaiHienTai(getAdapterPosition()).setChecked(true);
                     mTxtTen.setText(mauDienThoaiHienTai(getAdapterPosition()).getName());
+                    DatHang.sDienThoai = mauDienThoaiHienTai(getAdapterPosition()).getName();
                     mTxtGia.setText(DinhDang.chuyenThanhDinhDangGia(mauDienThoaiHienTai(getAdapterPosition()).getGia()));
                     notifyDataSetChanged();
                 }

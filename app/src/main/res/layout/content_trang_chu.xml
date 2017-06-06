@@ -11,51 +11,34 @@
 
     <ImageView
         android:id="@+id/imgCase"
-        android:layout_above="@+id/layout_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/case3" />
+        android:background="@drawable/case4"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <RelativeLayout
         android:id="@+id/layout_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/grey">
+        android:background="@color/yeallow">
 
         <Button
             android:id="@+id/btn_chuyen_trang_2"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:layout_marginTop="5dp"
             android:background="@drawable/bo_vien"
             android:paddingLeft="40dp"
             android:paddingRight="40dp"
-            android:text="Tạo ốp ngay!"
-            android:textAllCaps="false"
+            android:text="Tạo ốp ngay"
+            android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="15dp"
             android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/img_icon_plane"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_below="@+id/btn_chuyen_trang_2"
-            android:layout_toLeftOf="@+id/txt_free_ship"
-            android:src="@drawable/icon_plane" />
-
-        <TextView
-            android:id="@+id/txt_free_ship"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_chuyen_trang_2"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="5dp"
-            android:text="Tự do tạo ốp theo cách của riêng bạn"
-            android:textColor="@color/white"
-            android:textSize="12dp" />
     </RelativeLayout>
 
 

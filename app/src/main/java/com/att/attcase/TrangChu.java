@@ -79,7 +79,7 @@ public class TrangChu extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(false);
-        toggle.setHomeAsUpIndicator(R.mipmap.ic_menu_bread);
+        toggle.setHomeAsUpIndicator(R.mipmap.ic_mnu);
         toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -424,26 +424,14 @@ public class TrangChu extends AppCompatActivity
         if (id == R.id.nav_home) {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
-        } else if (id == R.id.nav_gallery) {
-            Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.nav_cart) {
             Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
-        } else if (id == R.id.nav_invite) {
-            Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (id == R.id.nav_make_case) {
+        }  else if (id == R.id.nav_make_case) {
             Intent chuyenTrangChonLayout = new Intent(TrangChu.this, ChonKhungLayout.class);
             startActivity(chuyenTrangChonLayout);
         } else if (id == R.id.nav_profile) {
-            Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (id == R.id.nav_promotion) {
             Toast.makeText(getApplicationContext(), "Tính năng sẽ được update trong thời gian sớm nhất", Toast.LENGTH_LONG).show();
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);

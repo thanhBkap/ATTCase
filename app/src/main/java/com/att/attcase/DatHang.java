@@ -35,6 +35,7 @@ import java.util.Map;
 public class DatHang extends AppCompatActivity {
     public static String sLayoutID;
     public static String sDienThoaiID;
+    public static String sDienThoai;
     private RelativeLayout llDatHang;
     private Toolbar mToolbar;
     private Button btnQuayLai, btnDatHang;
