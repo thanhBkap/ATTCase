@@ -13,5 +13,6 @@
     <color name="lightGreen">#3BB54A</color>
     <color name="yeallow">#ffff00</color>
     <color name="red">#e71923</color>
+    <color name="black">#000000</color>
 
 </resources>
