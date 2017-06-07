@@ -85,6 +85,7 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
     static ArrayList<AnhDuocChon> arrayList;
     private File outPutFile = null;
     static IconAdapter icon;
+    DialogXayDungCase dialog;
     TextView mTxtTen;
     private static RelativeLayout rlXayDungCase;
     private static RecyclerView rcAnhDuocChon;
@@ -155,20 +156,11 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                 if (Math.abs(currentTime - mDatHangClick) > mDatHangXacNhan) {
                     rlXayDungCase.removeView(img_khong_che);
                     rlXayDungCase.addView(img_khong_che);
-//                    rlXayDungCase.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            mBitMapCase = captureScreen(rlXayDungCase);
-//                            caseUri = getImageUri(getApplicationContext(), mBitMapCase);
-//                        }
-//                    });
-
                     rlXayDungCase.setDrawingCacheEnabled(true);
                     mBitMapCase = Bitmap.createBitmap(rlXayDungCase.getDrawingCache());
                     caseUri = getImageUri(getApplicationContext(), mBitMapCase);
-
-                    makeText(XayDungCase.this, "mời bạn nhấn thêm lần nữa để xác nhận đơn đặt hàng", Toast.LENGTH_SHORT).show();
-                    mDatHangClick = currentTime;
+                    dialog = new DialogXayDungCase(XayDungCase.this);
+                    dialog.show();
                 } else {
                     //thểm ảnh chụp case lên đầu
                     String themePick = imgTheme.getDrawable().toString();
@@ -744,6 +736,22 @@ public class XayDungCase extends AppCompatActivity implements android.view.View.
                 ((IconAdapter) rlXayDungCase.getChildAt(i)).disableAll();
             }
         }
+    }
+
+    public void xacnhan() {
+        //thểm ảnh chụp case lên đầu
+        String themePick = imgTheme.getDrawable().toString();
+        dsAnhString.add(caseUri.toString());
+        dsAnhString.add(themePick);
+        //thêm các ảnh nhỏ
+        for (AnhDuocChon a : arrayList) {
+            dsAnhString.add(a.getUriHinhAnh().toString());
+        }
+
+        //chuyển sang màn hình đặt hàng
+        Intent intentDatHang = new Intent(XayDungCase.this, ThongTinDonHang.class);
+        intentDatHang.putExtra("DsAnh", dsAnhString);
+        startActivity(intentDatHang);
     }
 
 }

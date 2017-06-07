@@ -209,7 +209,7 @@ public class DatHang extends AppCompatActivity {
                                 //chuyển về trang chủ khi up xong
                                 if (finalI == (listAnh.size() - 1)) {
                                     mLoadingDialog.dismiss();
-                                    Intent quayVeTrangChu = new Intent(DatHang.this, TrangChu.class);
+                                    Intent quayVeTrangChu = new Intent(DatHang.this, ChonKhungLayout.class);
                                     quayVeTrangChu.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     quayVeTrangChu.putExtra("activity", "dathang");
                                     startActivity(quayVeTrangChu);
