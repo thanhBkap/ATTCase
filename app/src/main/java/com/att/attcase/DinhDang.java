@@ -13,7 +13,8 @@ import android.net.ConnectivityManager;
 
 public class DinhDang {
     //public static final String URL = "http://phone.websumo.vn";
-    public static final String URL = "http://phonecase.890m.com";
+    public static final String URL = "http://opdienthoai.websumo.vn";
+    public static final String URL_ANH = "http://opdienthoai.websumo.vn/public";
     static int sReloadedDatabase = 0;
     public static String chuyenThanhDinhDangGia(String giaChuaDinhDang) {
         String gia = "";

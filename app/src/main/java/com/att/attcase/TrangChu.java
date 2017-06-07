@@ -179,9 +179,9 @@ public class TrangChu extends AppCompatActivity
                                     mauDienThoai.setId(object.getString("id"));
                                     mauDienThoai.setGia(object.getString("gia"));
                                     mauDienThoai.setIdThuongHieu(object.getString("thuong_hieu_id"));
-                                    mauDienThoai.setLinkAnh(DinhDang.URL + "/images/" + object.getString("anh"));
-                                    mauDienThoai.setLinkAnhMatSau(DinhDang.URL + "/images/" + object.getString("anh_mat_sau"));
-                                    mauDienThoai.setLinkAnhKhongChe(DinhDang.URL + "/images/" + object.getString("anh_khong_che"));
+                                    mauDienThoai.setLinkAnh(DinhDang.URL_ANH + "/images/" + object.getString("anh"));
+                                    mauDienThoai.setLinkAnhMatSau(DinhDang.URL_ANH + "/images/" + object.getString("anh_mat_sau"));
+                                    mauDienThoai.setLinkAnhKhongChe(DinhDang.URL_ANH + "/images/" + object.getString("anh_khong_che"));
                                     final int finalI = i;
                                     Target target = new Target() {
                                         @Override
@@ -269,7 +269,7 @@ public class TrangChu extends AppCompatActivity
                                     final ThuongHieu thuongHieu = new ThuongHieu();
                                     thuongHieu.setName(object.getString("ten"));
                                     thuongHieu.setId(object.getString("id"));
-                                    thuongHieu.setLinkAnh(DinhDang.URL + "/images/" + object.getString("logo"));
+                                    thuongHieu.setLinkAnh(DinhDang.URL_ANH + "/images/" + object.getString("logo"));
                                     Target target = new Target() {
                                         @Override
                                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -299,7 +299,7 @@ public class TrangChu extends AppCompatActivity
                                     layout.setSoHang(object.getInt("so_dong"));
                                     layout.setSoCot(object.getInt("so_cot"));
                                     layout.setTen(object.getString("ten"));
-                                    layout.setLinkAnh(DinhDang.URL + "/images/" + object.getString("anh"));
+                                    layout.setLinkAnh(DinhDang.URL_ANH + "/images/" + object.getString("anh"));
                                     Target target = new Target() {
                                         @Override
                                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
